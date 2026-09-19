@@ -14,7 +14,7 @@ const PAL = Object.freeze({
 });
 
 function doGet() {
-  return HtmlService.createTemplateFromFile('Index')
+  return HtmlService.createTemplateFromFile('AppShell')
     .evaluate()
     .setTitle('PAL ANTOJO')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');

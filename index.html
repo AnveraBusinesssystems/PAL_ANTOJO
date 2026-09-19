@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PAL ANTOJO</title>
+</head>
+<body>
+  <p style="font:16px system-ui;padding:24px">Loading PAL ANTOJO…</p>
+  <script>
+    Promise.all([
+      fetch('./AppShell.html').then(response => response.text()),
+      fetch('./Styles.html').then(response => response.text()),
+      fetch('./Scripts.html').then(response => response.text()),
+      fetch('./GithubPreview.js').then(response => response.text())
+    ]).then(([shell, styles, scripts, preview]) => {
+      const previewBanner = '<div class="github-preview"><strong>Website preview</strong><span>Sample data only · transactions are not saved to Google Sheets</span></div>';
+      const previewStyles = '<style>.github-preview{position:relative;z-index:200;display:flex;justify-content:center;gap:10px;align-items:center;padding:8px 12px;background:#f3d88a;color:#3f2d00;font:600 12px/1.3 Inter,system-ui,sans-serif;border-bottom:1px solid #c8a84e}.github-preview span{font-weight:500}@media(max-width:620px){.github-preview{display:block;text-align:center}.github-preview span{display:block;margin-top:2px}}</style>';
+      const source = shell
+        .replace("<?!= include('Styles'); ?>", '')
+        .replace("<?!= include('Scripts'); ?>", '')
+        .replace('<?!= getLogoDataUrl_(); ?>', './Pal_antojo_web.png');
+      const parsed = new DOMParser().parseFromString(source, 'text/html');
+      document.head.insertAdjacentHTML('beforeend', styles + previewStyles);
+      document.body.innerHTML = previewBanner + parsed.body.innerHTML;
+      const previewScript = document.createElement('script');
+      previewScript.textContent = preview;
+      document.body.appendChild(previewScript);
+      const appScript = document.createElement('script');
+      appScript.textContent = scripts.replace(/^\s*<script>\s*/, '').replace(/\s*<\/script>\s*$/, '');
+      document.body.appendChild(appScript);
+    }).catch(error => {
+      document.body.innerHTML = '<main style="font:16px system-ui;padding:24px"><h1>PAL ANTOJO</h1><p>The preview could not load. Refresh the page and try again.</p></main>';
+      console.error(error);
+    });
+  </script>
+</body>
+</html>

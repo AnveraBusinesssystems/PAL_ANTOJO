@@ -25,7 +25,8 @@ Create these files in Apps Script and paste the matching source from this folder
 - `Costs.gs` — expense ledger and estimated finished-bag costs
 - `Sales.gs` — locked, server-authoritative checkout and reporting
 - `Tests.gs` — non-destructive calculation tests
-- `Index.html` — application shell
+- `AppShell.html` — Google Apps Script application shell
+- `index.html` and `GithubPreview.js` — GitHub Pages preview entry point and sample-data adapter
 - `Styles.html` — responsive visual design
 - `Scripts.html` — seller POS and owner dashboard behavior
 - `appsscript.json` — optional manifest; Apps Script can generate its own
