@@ -26,18 +26,22 @@ Create these files in Apps Script and paste the matching source from this folder
 - `Sales.gs` — locked, server-authoritative checkout and reporting
 - `Tests.gs` — non-destructive calculation tests
 - `AppShell.html` — Google Apps Script application shell
-- `index.html` and `GithubPreview.js` — GitHub Pages preview entry point and sample-data adapter
 - `Styles.html` — responsive visual design
 - `Scripts.html` — seller POS and owner dashboard behavior
 - `appsscript.json` — optional manifest; Apps Script can generate its own
 
+Keep these files only in GitHub; do not add them to Apps Script:
+
+- `index.html` and `GithubPreview.js` — GitHub Pages preview entry point and sample-data adapter
+- `LiveAppConfig.js` — the single GitHub Pages setting where the deployed `/exec` URL is pasted
+
 ## Sheet interaction
 
-- `PRODUCTS` is the product catalog. Product IDs tie every other record together. Products can be added, repriced, and activated or deactivated from the owner page.
+- `PRODUCTS` is the product catalog. Product IDs tie every other record together. Every variation is its own product and stores its own price, status, and `Package Size (g)`.
 - `PRODUCTION` is the finished-bag batch log. Completing a batch increases finished inventory while preserving the producer, lot, best-by date, and waste record.
 - `INVENTORY` stores opening inventory and calculates produced bags, active units sold, and stock adjustments. `Current Inventory` calculates `Opening + Produced - Sold + Adjustments`.
 - `COSTS` contains the expense ledger in columns A–H. Columns J–P contain the editable per-product finished-bag cost model: raw product, label, plastic bag, and other packaging.
-- `SALES` uses one row per product item and a shared Sale ID for the transaction. Transaction totals repeat on its item rows, so the dashboard deduplicates by Sale ID when calculating revenue and discounts.
+- `SALES` uses one row per product item and a shared Sale ID for the transaction. Transaction totals repeat on its item rows, so the dashboard deduplicates by Sale ID when calculating revenue and discounts. New sales also snapshot the package size used at checkout in column U.
 - `SETTINGS` stores the business name, currency, discount thresholds, seller names, and payment methods. Repeated `SELLER_NAME` and `PAYMENT_METHOD` rows form the available lists.
 - `ADJUSTMENTS` is the audit trail for samples, personal use, damaged products, restocks, and inventory corrections.
 - `CASH_DRAWER` stores opening cash, cash-in/out movements, and saved drawer counts. Expected cash is calculated from these entries plus active Cash transactions; Zelle and Cash App are excluded.
@@ -46,34 +50,48 @@ Access PINs are kept in Apps Script **Script Properties**, not in HTML, browser 
 
 ## Installation and deployment
 
-1. In Google Drive, create a blank Google Sheet and name it `PAL ANTOJO Inventory & Sales`.
-2. In the Sheet, choose **Extensions → Apps Script**. This creates a script project bound to the Sheet.
+1. Open the existing `PAL_ANTOJO` Google Sheet. For a new installation, create a blank Google Sheet first.
+2. In the Sheet, choose **Extensions → Apps Script**. This creates a script project bound to that exact workbook.
 3. Rename the default `Code.gs` if needed, then add each `.gs` file listed above with the **+ → Script** button. Paste the contents of its matching local file.
-4. Add `Index`, `Styles`, and `Scripts` with **+ → HTML**. Apps Script adds `.html` automatically; use the exact names because `Code.gs` includes them by name.
+4. Add `AppShell`, `Styles`, and `Scripts` with **+ → HTML**. Apps Script adds `.html` automatically; use these exact names because `Code.gs` includes them by name.
 5. Optional: open **Project Settings**, enable **Show `appsscript.json` manifest file in editor**, and replace it with the supplied manifest. Otherwise, set the project time zone manually to the time zone where sales occur.
 6. Click **Save**.
 7. At the top of the editor, select `setupPalAntojoSystem` and click **Run** once.
 8. Google will ask for authorization. Choose the Google account that owns the Sheet, review the permissions, and click **Allow**. If Google shows an unverified-app warning for your own script, open **Advanced**, confirm the project name, and continue only if this is the script you created.
-9. Return to the Sheet and confirm these tabs exist: `PRODUCTS`, `PRODUCTION`, `INVENTORY`, `COSTS`, `SALES`, `ADJUSTMENTS`, `CASH_DRAWER`, and `SETTINGS`. Running setup again is safe: it adds missing structure/defaults and does not clear existing records.
-10. Back in Apps Script, choose **Deploy → New deployment**.
-11. Click the gear beside **Select type**, then choose **Web app**.
-12. Add a description such as `PAL ANTOJO MVP v1`.
-13. Set **Execute as** to **Me**. This is essential: sellers use the owner's authorized script to write to the bound Sheet.
-14. Set **Who has access** to **Anyone** if sellers will not sign in with Google. If your Google Workspace administrator does not allow this option, choose the broadest permitted audience and have sellers use eligible Google accounts.
-15. Click **Deploy**, complete any requested authorization, and copy the **Web app URL** ending in `/exec`.
-16. Open that URL in a private/incognito window. Confirm seller checkout opens immediately, then use **Owner access** to test owner PIN `1301`.
-17. After future code changes, choose **Deploy → Manage deployments → Edit**, select **New version**, and deploy. The `/exec` URL remains the same.
+9. Run `runPalAntojoTests`, then run `runLaunchReadinessCheck`. Fix every line marked `BLOCKER` before live selling. Warnings are operational reminders, not code failures.
+10. Return to the Sheet and confirm these tabs exist: `PRODUCTS`, `PRODUCTION`, `INVENTORY`, `COSTS`, `SALES`, `ADJUSTMENTS`, `CASH_DRAWER`, and `SETTINGS`. Running setup again is safe: it adds missing headers and formulas, updates product reference names, removes the obsolete global bag-weight setting, and does not clear transaction history.
+11. Back in Apps Script, choose **Deploy → New deployment**.
+12. Click the gear beside **Select type**, then choose **Web app**.
+13. Add a description such as `PAL ANTOJO production v1`.
+14. Set **Execute as** to **Me**. This is essential: sellers use the owner's authorized script to write to the bound Sheet.
+15. Set **Who has access** to **Anyone** if sellers will not sign in with Google. If your Google Workspace administrator does not allow this option, choose the broadest permitted audience and have sellers use eligible Google accounts.
+16. Click **Deploy**, complete any requested authorization, and copy the **Web app URL** ending in `/exec`.
+17. Open that URL in a private/incognito window. Confirm seller checkout opens immediately, then use **Owner access** to test owner PIN `1301`.
+18. Change the default owner PIN before live use.
+19. After future code changes, choose **Deploy → Manage deployments → Edit**, select **New version**, and deploy. The `/exec` URL remains the same.
+
+## Connect the GitHub Pages URL
+
+After the Google Apps Script deployment works:
+
+1. Open `LiveAppConfig.js` in GitHub.
+2. Paste the full `/exec` URL into `webAppUrl` between the quotes.
+3. Commit the one-line change to `main`.
+4. Wait for GitHub Pages to finish publishing.
+5. Open the GitHub Pages site and use **OPEN LIVE SELLER APP**.
+
+The GitHub Pages screen is a sample-data showcase. The Apps Script `/exec` deployment is the operational system that reads and writes the Google Sheet.
 
 Never give sellers edit access to the Sheet or Apps Script project. Share only the deployed web-app URL.
 
 ## First-use configuration
 
 1. Sign in as owner.
-2. Open **Products**, add at least one product, set its selling price, and leave it Active.
-3. Open **Inventory**, set starting inventory or use Quick Add, then set a reorder level.
+2. Open **Products**, confirm each variation has the correct package size and selling price, and set only ready-to-sell products Active.
+3. Open **Inventory**, set opening inventory when needed, then set a reorder level.
 4. Open **Costs**, fill in the per-bag raw product, label, plastic bag, and other packaging values.
 5. Open **Settings**, replace `Seller 1` with real seller names and confirm payment methods.
-6. Sign out and sign in as seller. Select a seller name and record a small test sale.
+6. Exit owner mode. Select a seller name and record a small test sale.
 
 ## Testing checklist
 
@@ -88,6 +106,7 @@ Run `runPalAntojoTests` from the Apps Script editor. Its execution result should
 - [ ] A mixed-product order uses total bag count and reduces every included product.
 - [ ] Attempting to exceed available inventory returns an error and writes no sale rows.
 - [ ] Change a product price, refresh the seller page, and confirm the server records the new price.
+- [ ] Change a product package size, refresh the seller page, and confirm the size appears on its card and is saved to the sale row.
 - [ ] Deactivate a product and confirm it disappears from seller checkout; a stale checkout submission must fail.
 - [ ] Record two sales consecutively and confirm two unique Sale IDs and correct remaining inventory.
 - [ ] Filter Sales by seller, product, start date, and end date.

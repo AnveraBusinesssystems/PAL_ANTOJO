@@ -63,11 +63,11 @@ function recordStockAdjustment(token, request) {
   const id = 'ADJ-' + Utilities.formatDate(now, zone, 'yyyyMMdd-HHmmss') + '-' + Utilities.getUuid().slice(0, 4).toUpperCase();
   getSheet_(PAL.SHEETS.ADJUSTMENTS).appendRow([
     id, Utilities.formatDate(now, zone, 'yyyy-MM-dd'), Utilities.formatDate(now, zone, 'HH:mm:ss'),
-    seller || 'Owner', product.id, product.name, delta, reason, notes
+    seller || 'Owner', product.id, product.displayName, delta, reason, notes
   ]);
   applyInventoryFormulas_();
   SpreadsheetApp.flush();
-  return { adjustmentId: id, quantityChange: delta, product: product.name };
+  return { adjustmentId: id, quantityChange: delta, product: product.displayName };
 }
 
 function getRecentAdjustments(token) {

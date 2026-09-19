@@ -1,5 +1,8 @@
 function seedSettings_() {
   const sheet = getSheet_(PAL.SHEETS.SETTINGS);
+  for (let row = sheet.getLastRow(); row >= 2; row--) {
+    if (String(sheet.getRange(row, 1).getValue()).trim() === 'BAG_WEIGHT_GRAMS') sheet.deleteRow(row);
+  }
   const defaults = [
     ['BUSINESS_NAME', 'PAL ANTOJO', 'Text'],
     ['CURRENCY', '$', 'Currency symbol'],

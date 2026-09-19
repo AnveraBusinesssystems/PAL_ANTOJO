@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>PAL ANTOJO</title>
+  <script src="./LiveAppConfig.js"></script>
 </head>
 <body>
   <p style="font:16px system-ui;padding:24px">Loading PAL ANTOJO…</p>
@@ -14,8 +15,10 @@
       fetch('./Scripts.html').then(response => response.text()),
       fetch('./GithubPreview.js').then(response => response.text())
     ]).then(([shell, styles, scripts, preview]) => {
-      const previewBanner = '<div class="github-preview"><strong>Website preview</strong><span>Sample data only · transactions are not saved to Google Sheets</span></div>';
-      const previewStyles = '<style>.github-preview{position:relative;z-index:200;display:flex;justify-content:center;gap:10px;align-items:center;padding:8px 12px;background:#f3d88a;color:#3f2d00;font:600 12px/1.3 Inter,system-ui,sans-serif;border-bottom:1px solid #c8a84e}.github-preview span{font-weight:500}@media(max-width:620px){.github-preview{display:block;text-align:center}.github-preview span{display:block;margin-top:2px}}</style>';
+      const configuredUrl = String(window.PAL_ANTOJO_CONFIG?.webAppUrl || '').trim();
+      const hasLiveApp = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(configuredUrl);
+      const previewBanner = `<div class="github-preview"><strong>Website preview</strong><span>Sample data only · transactions are not saved to Google Sheets</span>${hasLiveApp?`<a href="${configuredUrl}" rel="noopener">OPEN LIVE SELLER APP</a>`:''}</div>`;
+      const previewStyles = '<style>.github-preview{position:relative;z-index:200;display:flex;justify-content:center;gap:10px;align-items:center;padding:8px 12px;background:#f3d88a;color:#3f2d00;font:600 12px/1.3 Inter,system-ui,sans-serif;border-bottom:1px solid #c8a84e}.github-preview span{font-weight:500}.github-preview a{padding:6px 9px;border:1px solid currentColor;color:inherit;text-decoration:none;font-weight:900;letter-spacing:.03em}@media(max-width:620px){.github-preview{display:block;text-align:center}.github-preview span{display:block;margin:2px 0 8px}.github-preview a{display:inline-block}}</style>';
       const source = shell
         .replace("<?!= include('Styles'); ?>", '')
         .replace("<?!= include('Scripts'); ?>", '')

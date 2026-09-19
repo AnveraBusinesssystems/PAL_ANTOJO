@@ -45,6 +45,8 @@ function getAppBootstrap(token) {
       id: product.id,
       name: product.name,
       variation: product.variation,
+      displayName: product.displayName,
+      packageSizeGrams: product.packageSizeGrams,
       price: product.price,
       available: product.available
     })) : products

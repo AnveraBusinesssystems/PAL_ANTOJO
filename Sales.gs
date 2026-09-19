@@ -66,8 +66,15 @@ function writeSale_(session, request, existingSaleId, existingRows) {
       const product = productMap[id];
       if (!product) throw new Error('A selected product is inactive or no longer available. Refresh and try again.');
       const usable = (inventory[id] || 0) + (original[id] || 0);
-      if (requested[id] > usable) throw new Error(product.name + ' has only ' + usable + ' bag(s) available.');
-      return { id: id, name: product.name, quantity: requested[id], price: product.price, estimatedCost: product.estimatedCost };
+      if (requested[id] > usable) throw new Error(product.displayName + ' has only ' + usable + ' bag(s) available.');
+      return {
+        id: id,
+        name: product.displayName,
+        quantity: requested[id],
+        price: product.price,
+        estimatedCost: product.estimatedCost,
+        packageSizeGrams: product.packageSizeGrams
+      };
     });
     const totals = calculateSaleTotals_(lineItems);
     const now = new Date();
@@ -84,6 +91,7 @@ function writeSale_(session, request, existingSaleId, existingRows) {
     sheet.getRange(start, 12, rows.length, 1).setNumberFormat('0%');
     sheet.getRange(start, 13, rows.length, 2).setNumberFormat('$0.00');
     sheet.getRange(start, 17, rows.length, 2).setNumberFormat('$0.00');
+    sheet.getRange(start, 21, rows.length, 1).setNumberFormat('0 "g"');
     applyInventoryFormulas_();
     SpreadsheetApp.flush();
     touchInventoryRows_(Object.keys(Object.assign({}, original, requested)));
@@ -102,7 +110,7 @@ function buildSaleRows_(saleId, now, zone, seller, paymentMethod, notes, lineIte
     saleId, Utilities.formatDate(now, zone, 'yyyy-MM-dd'), Utilities.formatDate(now, zone, 'HH:mm:ss'), seller,
     item.id, item.name, item.quantity, item.price, roundMoney_(item.quantity * item.price), totals.totalBags, totals.subtotal,
     totals.discountPercent, totals.discountAmount, totals.finalTotal, paymentMethod, notes,
-    item.estimatedCost, roundMoney_(item.estimatedCost * item.quantity), 'ACTIVE', now
+    item.estimatedCost, roundMoney_(item.estimatedCost * item.quantity), 'ACTIVE', now, item.packageSizeGrams
   ]);
 }
 
@@ -163,7 +171,8 @@ function getRecentSellerSales(token) {
     };
     grouped[id].items.push({
       productId: String(row['Product ID']), product: String(row['Product Name']),
-      quantity: Number(row.Quantity) || 0, unitPrice: Number(row['Unit Price']) || 0
+      quantity: Number(row.Quantity) || 0, unitPrice: Number(row['Unit Price']) || 0,
+      packageSizeGrams: Number(row['Package Size (g)']) || 0
     });
   });
   return Object.keys(grouped).map(id => grouped[id]).reverse().slice(0, 100);
@@ -191,7 +200,8 @@ function getSalesForOwner(token, filters) {
     totalBags: Number(row['Total Bags']) || 0, subtotal: Number(row['Regular Subtotal']) || 0,
     discountPercent: Number(row['Discount %']) || 0, discountAmount: Number(row['Discount Amount']) || 0,
     finalTotal: Number(row['Final Total']) || 0, paymentMethod: String(row['Payment Method']), notes: String(row.Notes || ''),
-    estimatedCogs: Number(row['Estimated COGS']) || 0
+    estimatedCogs: Number(row['Estimated COGS']) || 0,
+    packageSizeGrams: Number(row['Package Size (g)']) || 0
   })).reverse().slice(0, 1000);
 }
 

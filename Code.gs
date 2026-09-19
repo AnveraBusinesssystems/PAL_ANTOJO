@@ -105,19 +105,20 @@ function setupPalAntojoSystem() {
   Object.keys(specs).forEach(name => initializeSheet_(ss, name, specs[name]));
   seedSettings_();
   ensurePinProperties_();
+  syncProductReferenceNames_();
   applyInventoryFormulas_();
   applyCostFormulas_();
   SpreadsheetApp.flush();
-  return 'PAL ANTOJO is ready. Open the web app deployment to sign in.';
+  return 'PAL ANTOJO structure synchronized. Run runLaunchReadinessCheck() before deployment.';
 }
 
 function getSheetSpecs_() {
   return {
-    PRODUCTS: ['Product ID', 'Product Name', 'Flavor / Variation', 'Selling Price Per Bag', 'Active / Inactive', 'Notes'],
+    PRODUCTS: ['Product ID', 'Product Name', 'Flavor / Variation', 'Selling Price Per Bag', 'Active / Inactive', 'Notes', 'Package Size (g)'],
     PRODUCTION: ['Batch ID', 'Date', 'Product ID', 'Product Name', 'Planned Bags', 'Completed Bags', 'Grams / Bag', 'Waste / Scrap (g)', 'Status', 'Produced By', 'Lot Number', 'Best By Date', 'Notes', 'Completed At'],
     INVENTORY: ['Product ID', 'Product Name', 'Opening Inventory', 'Produced Bags', 'Units Sold', 'Current Inventory', 'Reorder Level', 'Last Updated'],
     COSTS: ['Date', 'Cost Category', 'Product', 'Description', 'Total Cost', 'Quantity Associated', 'Cost Per Unit', 'Notes'],
-    SALES: ['Sale ID', 'Date', 'Time', 'Seller', 'Product ID', 'Product Name', 'Quantity', 'Unit Price', 'Line Subtotal', 'Total Bags', 'Regular Subtotal', 'Discount %', 'Discount Amount', 'Final Total', 'Payment Method', 'Notes', 'Estimated Unit Cost', 'Estimated COGS', 'Status', 'Last Edited'],
+    SALES: ['Sale ID', 'Date', 'Time', 'Seller', 'Product ID', 'Product Name', 'Quantity', 'Unit Price', 'Line Subtotal', 'Total Bags', 'Regular Subtotal', 'Discount %', 'Discount Amount', 'Final Total', 'Payment Method', 'Notes', 'Estimated Unit Cost', 'Estimated COGS', 'Status', 'Last Edited', 'Package Size (g)'],
     ADJUSTMENTS: ['Adjustment ID', 'Date', 'Time', 'Seller', 'Product ID', 'Product Name', 'Quantity Change', 'Reason', 'Notes'],
     CASH_DRAWER: ['Entry ID', 'Date', 'Time', 'Seller', 'Type', 'Amount', 'Reason', 'Notes', 'Created At'],
     SETTINGS: ['Setting', 'Value', 'Type / Notes']
@@ -135,10 +136,15 @@ function initializeSheet_(ss, name, headers) {
   const headerRange = sheet.getRange(1, 1, 1, headers.length);
   headerRange.setBackground('#0b3519').setFontColor('#fbf8ef').setFontWeight('bold');
   sheet.setFrozenRows(1);
+  const filter = sheet.getFilter();
+  const filterRows = Math.max(sheet.getLastRow(), 2);
+  if (filter && filter.getRange().getNumColumns() < headers.length) filter.remove();
   if (!sheet.getFilter() && sheet.getMaxRows() > 1) {
-    sheet.getRange(1, 1, Math.max(sheet.getLastRow(), 2), headers.length).createFilter();
+    sheet.getRange(1, 1, filterRows, headers.length).createFilter();
   }
   sheet.autoResizeColumns(1, headers.length);
+  if (name === PAL.SHEETS.PRODUCTS && sheet.getLastRow() >= 2) sheet.getRange(2, 7, sheet.getLastRow() - 1, 1).setNumberFormat('0 "g"');
+  if (name === PAL.SHEETS.SALES && sheet.getLastRow() >= 2) sheet.getRange(2, 21, sheet.getLastRow() - 1, 1).setNumberFormat('0 "g"');
   if (name === PAL.SHEETS.COSTS) initializeCostModelSection_(sheet);
 }
 

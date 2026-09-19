@@ -22,6 +22,12 @@ function getCostModelRows_() {
   })).filter(row => row.productId);
 }
 
+function productDisplayName_(name, variation) {
+  const base = cleanString_(name, 100);
+  const flavor = cleanString_(variation, 100);
+  return flavor ? base + ' — ' + flavor : base;
+}
+
 function getSellableProducts_() {
   const inventory = getInventoryRows_();
   const costs = getCostModelRows_();
@@ -32,6 +38,8 @@ function getSellableProducts_() {
       id: String(row['Product ID']),
       name: String(row['Product Name']),
       variation: String(row['Flavor / Variation'] || ''),
+      displayName: productDisplayName_(row['Product Name'], row['Flavor / Variation']),
+      packageSizeGrams: Number(row['Package Size (g)']) || 0,
       price: Number(row['Selling Price Per Bag']) || 0,
       available: stock ? Number(stock['Current Inventory']) || 0 : 0,
       estimatedCost: cost ? cost.estimatedCost : 0
@@ -46,17 +54,19 @@ function saveProduct(token, product) {
   const id = cleanString_(product.id, 50) || ('PROD-' + Utilities.getUuid().slice(0, 8).toUpperCase());
   const name = cleanString_(product.name, 100);
   const variation = cleanString_(product.variation, 100);
+  const packageSizeGrams = wholeNumber_(product.packageSizeGrams, 'Package size', false);
   const price = positiveNumber_(product.price, 'Selling price', true);
   const active = product.active === false ? 'Inactive' : 'Active';
   const notes = cleanString_(product.notes, 500);
   if (!name) throw new Error('Product name is required.');
   const row = findRowById_(sheet, id, 1);
-  const values = [id, name, variation, price, active, notes];
+  const values = [id, name, variation, price, active, notes, packageSizeGrams];
   if (row) sheet.getRange(row, 1, 1, values.length).setValues([values]);
   else sheet.appendRow(values);
   sheet.getRange(2, 4, Math.max(1, sheet.getLastRow() - 1), 1).setNumberFormat('$0.00');
-  ensureInventoryProduct_(id, name);
-  ensureCostModelProduct_(id, name);
+  const displayName = productDisplayName_(name, variation);
+  ensureInventoryProduct_(id, displayName);
+  ensureCostModelProduct_(id, displayName);
   return { id: id, message: row ? 'Product updated.' : 'Product added.' };
 }
 
@@ -80,6 +90,24 @@ function ensureCostModelProduct_(id, name) {
   applyCostFormulas_();
 }
 
+function syncProductReferenceNames_() {
+  const products = getProductRows_();
+  const inventorySheet = getSheet_(PAL.SHEETS.INVENTORY);
+  const costSheet = getSheet_(PAL.SHEETS.COSTS);
+  const costModels = getCostModelRows_();
+  products.forEach(product => {
+    const id = String(product['Product ID']);
+    if (!id) return;
+    const displayName = productDisplayName_(product['Product Name'], product['Flavor / Variation']);
+    const inventoryRow = findRowById_(inventorySheet, id, 1);
+    if (inventoryRow) inventorySheet.getRange(inventoryRow, 2).setValue(displayName);
+    else inventorySheet.appendRow([id, displayName, 0, 0, '', '', 5, new Date()]);
+    const costModel = costModels.find(row => row.productId === id);
+    if (costModel) costSheet.getRange(costModel._row, 11).setValue(displayName);
+    else costSheet.getRange(Math.max(costSheet.getLastRow() + 1, 2), 10, 1, 7).setValues([[id, displayName, 0, 0, 0, 0, '']]);
+  });
+}
+
 function getAllProductsForOwner_(token) {
   requireSession_(token, 'owner');
   const inventory = getInventoryRows_();
@@ -89,6 +117,8 @@ function getAllProductsForOwner_(token) {
     const cost = costs.find(item => item.productId === String(row['Product ID'])) || {};
     return {
       id: String(row['Product ID']), name: String(row['Product Name']), variation: String(row['Flavor / Variation'] || ''),
+      displayName: productDisplayName_(row['Product Name'], row['Flavor / Variation']),
+      packageSizeGrams: Number(row['Package Size (g)']) || 0,
       price: Number(row['Selling Price Per Bag']) || 0, active: String(row['Active / Inactive']).toLowerCase() === 'active', notes: String(row.Notes || ''),
       starting: Number(stock['Opening Inventory']) || 0, produced: Number(stock['Produced Bags']) || 0,
       sold: Number(stock['Units Sold']) || 0, current: Number(stock['Current Inventory']) || 0,
