@@ -4,6 +4,7 @@ function applyInventoryFormulas_() {
   if (lastRow < 2) return;
   for (let row = 2; row <= lastRow; row++) {
     if (!sheet.getRange(row, 1).getValue()) continue;
+    sheet.getRange(row, 4).setFormula('=IF(A' + row + '="","",SUMIFS(PRODUCTION!F:F,PRODUCTION!C:C,A' + row + ',PRODUCTION!I:I,"Completed"))');
     sheet.getRange(row, 5).setFormula('=IF(A' + row + '="","",SUMIFS(SALES!G:G,SALES!E:E,A' + row + ',SALES!S:S,"<>VOIDED",SALES!S:S,"<>SUPERSEDED"))');
     sheet.getRange(row, 6).setFormula('=IF(A' + row + '="","",C' + row + '+D' + row + '-E' + row + '+SUMIF(ADJUSTMENTS!E:E,A' + row + ',ADJUSTMENTS!G:G))');
   }
@@ -17,27 +18,15 @@ function updateInventory(token, productId, values) {
   const sheet = getSheet_(PAL.SHEETS.INVENTORY);
   const row = findRowById_(sheet, cleanString_(productId, 50), 1);
   if (!row) throw new Error('Inventory record not found.');
-  const starting = wholeNumber_(values.starting, 'Starting inventory', true);
-  const added = wholeNumber_(values.added, 'Inventory added', true);
+  const starting = wholeNumber_(values.starting, 'Opening inventory', true);
   const reorder = wholeNumber_(values.reorder, 'Reorder level', true);
   const sold = Number(sheet.getRange(row, 5).getValue()) || 0;
-  if (starting + added < sold) throw new Error('Those values would make current inventory negative.');
-  sheet.getRange(row, 3, 1, 2).setValues([[starting, added]]);
+  const produced = Number(sheet.getRange(row, 4).getValue()) || 0;
+  const adjustmentRows = rowsAsObjects_(getSheet_(PAL.SHEETS.ADJUSTMENTS), getSheetSpecs_().ADJUSTMENTS);
+  const adjustments = adjustmentRows.filter(item => String(item['Product ID']) === String(productId)).reduce((sum, item) => sum + (Number(item['Quantity Change']) || 0), 0);
+  if (starting + produced - sold + adjustments < 0) throw new Error('That opening inventory would make current inventory negative.');
+  sheet.getRange(row, 3).setValue(starting);
   sheet.getRange(row, 7, 1, 2).setValues([[reorder, new Date()]]);
-  applyInventoryFormulas_();
-  SpreadsheetApp.flush();
-  return true;
-}
-
-function addInventory(token, productId, quantity) {
-  requireSession_(token, 'owner');
-  const amount = wholeNumber_(quantity, 'Quantity', false);
-  const sheet = getSheet_(PAL.SHEETS.INVENTORY);
-  const row = findRowById_(sheet, cleanString_(productId, 50), 1);
-  if (!row) throw new Error('Inventory record not found.');
-  const currentAdded = Number(sheet.getRange(row, 4).getValue()) || 0;
-  sheet.getRange(row, 4).setValue(currentAdded + amount);
-  sheet.getRange(row, 8).setValue(new Date());
   applyInventoryFormulas_();
   SpreadsheetApp.flush();
   return true;

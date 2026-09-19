@@ -33,7 +33,8 @@ Create these files in Apps Script and paste the matching source from this folder
 ## Sheet interaction
 
 - `PRODUCTS` is the product catalog. Product IDs tie every other record together. Products can be added, repriced, and activated or deactivated from the owner page.
-- `INVENTORY` stores starting inventory and cumulative additions. `Units Sold` sums item quantities in `SALES`; `Current Inventory` calculates `Starting + Added - Sold`.
+- `PRODUCTION` is the finished-bag batch log. Completing a batch increases finished inventory while preserving the producer, lot, best-by date, and waste record.
+- `INVENTORY` stores opening inventory and calculates produced bags, active units sold, and stock adjustments. `Current Inventory` calculates `Opening + Produced - Sold + Adjustments`.
 - `COSTS` contains the expense ledger in columns A–H. Columns J–P contain the editable per-product finished-bag cost model: raw product, label, plastic bag, and other packaging.
 - `SALES` uses one row per product item and a shared Sale ID for the transaction. Transaction totals repeat on its item rows, so the dashboard deduplicates by Sale ID when calculating revenue and discounts.
 - `SETTINGS` stores the business name, currency, discount thresholds, seller names, and payment methods. Repeated `SELLER_NAME` and `PAYMENT_METHOD` rows form the available lists.
@@ -52,7 +53,7 @@ Access PINs are kept in Apps Script **Script Properties**, not in HTML, browser 
 6. Click **Save**.
 7. At the top of the editor, select `setupPalAntojoSystem` and click **Run** once.
 8. Google will ask for authorization. Choose the Google account that owns the Sheet, review the permissions, and click **Allow**. If Google shows an unverified-app warning for your own script, open **Advanced**, confirm the project name, and continue only if this is the script you created.
-9. Return to the Sheet and confirm these tabs exist: `PRODUCTS`, `INVENTORY`, `COSTS`, `SALES`, `ADJUSTMENTS`, `CASH_DRAWER`, and `SETTINGS`. Running setup again is safe: it adds missing structure/defaults and does not clear existing records.
+9. Return to the Sheet and confirm these tabs exist: `PRODUCTS`, `PRODUCTION`, `INVENTORY`, `COSTS`, `SALES`, `ADJUSTMENTS`, `CASH_DRAWER`, and `SETTINGS`. Running setup again is safe: it adds missing structure/defaults and does not clear existing records.
 10. Back in Apps Script, choose **Deploy → New deployment**.
 11. Click the gear beside **Select type**, then choose **Web app**.
 12. Add a description such as `PAL ANTOJO MVP v1`.
@@ -108,6 +109,6 @@ Run `runPalAntojoTests` from the Apps Script editor. Its execution result should
 - Individual seller accounts or Google-account allowlists instead of a shared PIN
 - Refunds/voids with an audit trail
 - CSV/PDF reports and automatic daily summaries
-- Stock-addition history rather than one cumulative `Inventory Added` field
+- A guided production form in the owner dashboard for completing batches without opening the Sheet
 - Payment-method settlement reports and end-of-day close/lock controls
 - Automated backups and a separate staging Sheet for testing changes

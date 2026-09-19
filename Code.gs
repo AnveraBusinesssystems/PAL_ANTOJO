@@ -2,6 +2,7 @@ const PAL = Object.freeze({
   SPREADSHEET_ID: '1_hqL5CySfkqEr4mlZeKG3OBFIoJH4UBs_NUGKA4eXAI',
   SHEETS: Object.freeze({
     PRODUCTS: 'PRODUCTS',
+    PRODUCTION: 'PRODUCTION',
     INVENTORY: 'INVENTORY',
     COSTS: 'COSTS',
     SALES: 'SALES',
@@ -113,7 +114,8 @@ function setupPalAntojoSystem() {
 function getSheetSpecs_() {
   return {
     PRODUCTS: ['Product ID', 'Product Name', 'Flavor / Variation', 'Selling Price Per Bag', 'Active / Inactive', 'Notes'],
-    INVENTORY: ['Product ID', 'Product Name', 'Starting Inventory', 'Inventory Added', 'Units Sold', 'Current Inventory', 'Reorder Level', 'Last Updated'],
+    PRODUCTION: ['Batch ID', 'Date', 'Product ID', 'Product Name', 'Planned Bags', 'Completed Bags', 'Grams / Bag', 'Waste / Scrap (g)', 'Status', 'Produced By', 'Lot Number', 'Best By Date', 'Notes', 'Completed At'],
+    INVENTORY: ['Product ID', 'Product Name', 'Opening Inventory', 'Produced Bags', 'Units Sold', 'Current Inventory', 'Reorder Level', 'Last Updated'],
     COSTS: ['Date', 'Cost Category', 'Product', 'Description', 'Total Cost', 'Quantity Associated', 'Cost Per Unit', 'Notes'],
     SALES: ['Sale ID', 'Date', 'Time', 'Seller', 'Product ID', 'Product Name', 'Quantity', 'Unit Price', 'Line Subtotal', 'Total Bags', 'Regular Subtotal', 'Discount %', 'Discount Amount', 'Final Total', 'Payment Method', 'Notes', 'Estimated Unit Cost', 'Estimated COGS', 'Status', 'Last Edited'],
     ADJUSTMENTS: ['Adjustment ID', 'Date', 'Time', 'Seller', 'Product ID', 'Product Name', 'Quantity Change', 'Reason', 'Notes'],

@@ -90,7 +90,7 @@ function getAllProductsForOwner_(token) {
     return {
       id: String(row['Product ID']), name: String(row['Product Name']), variation: String(row['Flavor / Variation'] || ''),
       price: Number(row['Selling Price Per Bag']) || 0, active: String(row['Active / Inactive']).toLowerCase() === 'active', notes: String(row.Notes || ''),
-      starting: Number(stock['Starting Inventory']) || 0, added: Number(stock['Inventory Added']) || 0,
+      starting: Number(stock['Opening Inventory']) || 0, produced: Number(stock['Produced Bags']) || 0,
       sold: Number(stock['Units Sold']) || 0, current: Number(stock['Current Inventory']) || 0,
       reorder: Number(stock['Reorder Level']) || 0, estimatedCost: Number(cost.estimatedCost) || 0,
       costParts: { raw: Number(cost.raw) || 0, label: Number(cost.label) || 0, bag: Number(cost.bag) || 0, other: Number(cost.other) || 0 }
