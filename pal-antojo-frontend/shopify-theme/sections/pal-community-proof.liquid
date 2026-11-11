@@ -1,0 +1,62 @@
+<section class="pa-proof" style="--pa-proof-bg: {{ section.settings.background }}; --pa-proof-text: {{ section.settings.text_color }};">
+  <div class="pa-proof__inner">
+    <header>
+      {% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {% if section.settings.intro != blank %}<div>{{ section.settings.intro }}</div>{% endif %}
+    </header>
+    {% if section.blocks.size > 0 %}
+      <div class="pa-proof__grid">
+        {% for block in section.blocks %}
+          <figure {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 900 | image_tag: widths: '360, 540, 720, 900', sizes: '(min-width: 750px) 33vw, 100vw', loading: 'lazy' }}{% endif %}
+            {% if block.settings.quote != blank %}<blockquote>{{ block.settings.quote }}</blockquote>{% endif %}
+            {% if block.settings.attribution != blank %}<figcaption>{{ block.settings.attribution | escape }}</figcaption>{% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if section.settings.button_link != blank and section.settings.button_label != blank %}<a href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }} {% render 'pal-icon', name: 'arrow_right' %}</a>{% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .pa-proof{background:var(--pa-proof-bg);color:var(--pa-proof-text);padding:clamp(48px,7vw,90px) var(--page-margin)}
+  .pa-proof__inner{width:min(1280px,100%);margin:0 auto}
+  .pa-proof header{max-width:760px}
+  .pa-proof header>p{margin:0 0 10px;color:#e5ad35;font-size:12px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+  .pa-proof h2{margin:0;font-size:clamp(38px,5vw,68px);line-height:.96;letter-spacing:-.045em}
+  .pa-proof header>div{margin-top:18px;font-size:clamp(17px,1.7vw,21px);line-height:1.5}.pa-proof header>div p{margin:0}
+  .pa-proof__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+  .pa-proof figure{margin:0;border:2px solid currentColor;background:#f5f0e8;color:#1b4332}
+  .pa-proof figure img{width:100%;aspect-ratio:1/1;object-fit:cover}
+  .pa-proof blockquote{margin:0;padding:24px 24px 14px;font-size:18px;line-height:1.45}
+  .pa-proof figcaption{padding:0 24px 24px;font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+  .pa-proof__inner>a{display:inline-flex;min-height:50px;align-items:center;gap:22px;margin-top:30px;padding:12px 18px;border:2px solid currentColor;color:inherit;text-decoration:none;font-size:13px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+  .pa-proof__inner>a:focus-visible{outline:3px solid #e5ad35;outline-offset:4px}
+  @media(max-width:749px){.pa-proof{padding:44px 16px}.pa-proof__grid{grid-template-columns:1fr}.pa-proof__inner>a{width:100%;justify-content:space-between}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PAL community proof",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "PAL ANTOJO IN THE WILD" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "REAL CRAVINGS. REAL PEOPLE." },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Add verified customer photos, market moments, and real reviews here as they become available.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "FOLLOW @PALANTOJOTX" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#c0392b" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#f5f0e8" }
+  ],
+  "blocks": [
+    { "type": "proof", "name": "Customer proof", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Customer or market photo" },
+      { "type": "richtext", "id": "quote", "label": "Verified quote" },
+      { "type": "text", "id": "attribution", "label": "Attribution" }
+    ] }
+  ],
+  "presets": [ { "name": "PAL community proof" } ]
+}
+{% endschema %}

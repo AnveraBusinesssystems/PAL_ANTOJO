@@ -1,0 +1,28 @@
+<div class="announcement" role="region" aria-label="Store announcement">
+  <span class="announcement-message">{{ 'pal.announcement.shipping' | t }}</span>
+  <span class="announcement-divider" aria-hidden="true">{% render 'pal-icon', name: 'diamond' %}</span>
+  <span class="announcement-message announcement-secondary">{{ 'pal.announcement.flavor' | t }}</span>
+  <span class="announcement-divider announcement-secondary" aria-hidden="true">{% render 'pal-icon', name: 'diamond' %}</span>
+  <span class="announcement-message announcement-secondary">{{ 'pal.announcement.ingredients' | t }}</span>
+</div>
+<header class="site-header">
+  <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+    <img src="{{ 'logo-500.placeholder.svg' | asset_url }}" alt="Placeholder for logo-500.png" width="500" height="500" fetchpriority="high">
+  </a>
+  <nav aria-label="{{ 'pal.navigation.primary' | t }}">
+    <a href="{{ routes.root_url }}"{% if request.page_type == 'index' %} aria-current="page"{% endif %}>{{ 'pal.navigation.home' | t }}</a>
+    <a href="{{ routes.all_products_collection_url }}"{% if request.page_type == 'collection' and template.suffix != 'build' %} aria-current="page"{% endif %}>{{ 'pal.navigation.flavors' | t }}</a>
+    <a href="{{ routes.all_products_collection_url }}?view=build"{% if template.suffix == 'build' %} aria-current="page"{% endif %}>{{ 'pal.navigation.build' | t }}</a>
+    <a href="/pages/about-pal-antojo"{% if page.handle == 'about-pal-antojo' %} aria-current="page"{% endif %}>{{ 'pal.navigation.story' | t }}</a>
+  </nav>
+  <div class="header-actions">
+    <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span><b>{{ 'pal.navigation.menu' | t }}</b></button>
+    <a class="cart-button" href="{{ routes.cart_url }}">{{ 'pal.navigation.bag' | t }} <span id="cart-count">{{ cart.item_count }}</span></a>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="{{ 'pal.navigation.mobile' | t }}" hidden>
+  <a href="{{ routes.root_url }}"><span>01</span>{{ 'pal.navigation.home' | t }}</a>
+  <a href="{{ routes.all_products_collection_url }}"><span>02</span>{{ 'pal.navigation.flavors' | t }}</a>
+  <a href="{{ routes.all_products_collection_url }}?view=build"><span>03</span>{{ 'pal.navigation.build' | t }}</a>
+  <a href="/pages/about-pal-antojo"><span>04</span>{{ 'pal.navigation.story' | t }}</a>
+</nav>

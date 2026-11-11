@@ -1,0 +1,20 @@
+{% assign catalog = section.settings.collection | default: collections.all %}
+<section class="catalog-hero"><p class="eyebrow">THE COMPLETE CATALOG</p><h1>PICK YOUR<br><em>CRUNCH.</em></h1><p>Four bold flavors. Filter the lineup or see everything at once.</p></section>
+<section class="flavors-section" id="flavors">
+  <div class="catalog-filter" aria-label="Filter the catalog by flavor"><span>SHOP BY FLAVOR</span><input type="radio" name="catalog-flavor" id="filter-all" checked><label for="filter-all">View all</label><input type="radio" name="catalog-flavor" id="filter-adobado"><label for="filter-adobado">Adobado</label><input type="radio" name="catalog-flavor" id="filter-flaming-hot"><label for="filter-flaming-hot">Flaming Hot</label><input type="radio" name="catalog-flavor" id="filter-salt-lime"><label for="filter-salt-lime">Salt &amp; Lime</label><input type="radio" name="catalog-flavor" id="filter-natural"><label for="filter-natural">Natural</label></div>
+  <div class="flavor-grid">
+    {% for product in catalog.products %}
+      {% assign flavor_class = 'adobado' %}{% if product.tags contains 'flaming hot' %}{% assign flavor_class = 'flaming-hot' %}{% elsif product.tags contains 'salt and lime' %}{% assign flavor_class = 'salt-lime' %}{% elsif product.tags contains 'natural' %}{% assign flavor_class = 'natural' %}{% endif %}
+      {% assign color_index = forloop.index0 | modulo: 6 %}{% case color_index %}{% when 0 %}{% assign color_class = 'flavor-red' %}{% when 1 %}{% assign color_class = 'flavor-yellow' %}{% when 2 %}{% assign color_class = 'flavor-green' %}{% when 3 %}{% assign color_class = 'flavor-purple' %}{% when 4 %}{% assign color_class = 'flavor-cream' %}{% else %}{% assign color_class = 'flavor-orange' %}{% endcase %}
+      <article class="flavor-card {{ color_class }}" data-filter-category="{{ flavor_class }}">
+        <div class="flavor-top"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><span>{% if product.available %}IN STOCK{% else %}SOLD OUT{% endif %}</span></div>
+        <a href="{{ product.url }}">{% if product.featured_image %}{{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', alt: product.title }}{% endif %}</a>
+        <div class="flavor-copy"><p>{{ product.product_type | default: product.vendor }}</p><h3><a href="{{ product.url }}">{{ product.title }}</a></h3><p class="pal-price">{{ product.price | money }}</p>{% form 'product', product, class: 'pal-quick-add-form' %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}"><button class="quick-add" type="submit"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Quick add{% else %}Sold out{% endif %}<span>+</span></button>{% endform %}</div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+<section class="catalog-cta"><p class="eyebrow">FOUND YOUR FAVORITES?</p><h2>MIX THEM<br><em>YOUR WAY.</em></h2><a class="button button-primary" href="{{ routes.all_products_collection_url }}?view=build">Build a box {% render 'pal-icon', name: 'arrow_up_right' %}</a></section>
+{% schema %}
+{"name":"Pal Antojo catalog","settings":[{"type":"collection","id":"collection","label":"Catalog collection"}],"presets":[{"name":"Pal Antojo catalog"}]}
+{% endschema %}

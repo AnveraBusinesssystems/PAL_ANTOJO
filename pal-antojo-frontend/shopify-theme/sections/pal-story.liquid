@@ -1,0 +1,268 @@
+<div class="pal-about">
+  <section class="pal-about__hero" aria-labelledby="pal-about-title">
+    <div class="pal-about__hero-copy">
+      <p class="eyebrow">{{ 'pal.about.hero_eyebrow' | t }}</p>
+      <h1 id="pal-about-title">{{ 'pal.about.hero_heading_html' | t }}</h1>
+      <p class="pal-about__hero-intro">{{ 'pal.about.hero_intro' | t }}</p>
+      <div class="pal-about__route" aria-label="{{ 'pal.about.route_label' | t | escape }}">
+        <span>{{ 'pal.about.route_origin' | t }}</span>
+        <i aria-hidden="true"></i>
+        <span>{{ 'pal.about.route_destination' | t }}</span>
+      </div>
+    </div>
+    <figure class="pal-about__hero-visual">
+      <img src="{{ 'pal-hero-table-v1.placeholder.svg' | asset_url }}" alt="Placeholder for pal-hero-table-v1.png" width="1536" height="1024" loading="eager">
+      <figcaption>{{ 'pal.about.hero_caption' | t }}</figcaption>
+    </figure>
+  </section>
+
+  <section class="pal-about__facts" aria-label="{{ 'pal.about.facts_label' | t | escape }}">
+    <article>
+      <span>01</span>
+      <div><strong>{{ 'pal.about.fact_location_heading' | t }}</strong><p>{{ 'pal.about.fact_location_body' | t }}</p></div>
+    </article>
+    <article>
+      <span>02</span>
+      <div><strong>{{ 'pal.about.fact_family_heading' | t }}</strong><p>{{ 'pal.about.fact_family_body' | t }}</p></div>
+    </article>
+    <article>
+      <span>03</span>
+      <div><strong>{{ 'pal.about.fact_shipping_heading' | t }}</strong><p>{{ 'pal.about.fact_shipping_body' | t }}</p></div>
+    </article>
+  </section>
+
+  <section class="pal-about__origin" aria-labelledby="pal-about-origin-title">
+    <div class="pal-about__chapter">
+      <span>01</span>
+      <p>{{ 'pal.about.origin_eyebrow' | t }}</p>
+    </div>
+    <div class="pal-about__origin-copy">
+      <h2 id="pal-about-origin-title">{{ 'pal.about.origin_heading_html' | t }}</h2>
+      <div class="pal-about__origin-body">
+        <p class="pal-about__lead">{{ 'pal.about.origin_lead' | t }}</p>
+        <p>{{ 'pal.about.origin_body' | t }}</p>
+      </div>
+    </div>
+    <div class="pal-about__stamp" aria-hidden="true">
+      <span>{{ 'pal.about.stamp_top' | t }}</span>
+      {% render 'pal-icon', name: 'diamond' %}
+      <span>{{ 'pal.about.stamp_bottom' | t }}</span>
+    </div>
+  </section>
+
+  <section class="pal-about__difference" aria-labelledby="pal-about-difference-title">
+    <header class="pal-about__section-heading">
+      <div>
+        <p class="eyebrow">{{ 'pal.about.difference_eyebrow' | t }}</p>
+        <h2 id="pal-about-difference-title">{{ 'pal.about.difference_heading_html' | t }}</h2>
+      </div>
+      <p>{{ 'pal.about.difference_intro' | t }}</p>
+    </header>
+    <div class="pal-about__pillars">
+      <article class="pal-about__pillar pal-about__pillar--cream">
+        <span>01</span>
+        <h3>{{ 'pal.about.pillar_one_heading' | t }}</h3>
+        <p>{{ 'pal.about.pillar_one_body' | t }}</p>
+        <strong>{{ 'pal.about.pillar_one_note' | t }}</strong>
+      </article>
+      <article class="pal-about__pillar pal-about__pillar--sun">
+        <span>02</span>
+        <h3>{{ 'pal.about.pillar_two_heading' | t }}</h3>
+        <p>{{ 'pal.about.pillar_two_body' | t }}</p>
+        <strong>{{ 'pal.about.pillar_two_note' | t }}</strong>
+      </article>
+      <article class="pal-about__pillar pal-about__pillar--red">
+        <span>03</span>
+        <h3>{{ 'pal.about.pillar_three_heading' | t }}</h3>
+        <p>{{ 'pal.about.pillar_three_body' | t }}</p>
+        <strong>{{ 'pal.about.pillar_three_note' | t }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <section class="pal-about__people" aria-labelledby="pal-about-people-title">
+    <div class="pal-about__people-visual">
+      <figure class="pal-about__people-main">
+        <img src="{{ 'banana-adobado-feature.placeholder.svg' | asset_url }}" alt="Placeholder for banana-adobado-feature.png" width="1254" height="1254" loading="lazy">
+      </figure>
+      <figure class="pal-about__people-detail">
+        <img src="{{ 'taro-adobado-feature.placeholder.svg' | asset_url }}" alt="Placeholder for taro-adobado-feature.png" width="1254" height="1254" loading="lazy">
+      </figure>
+      <p>{{ 'pal.about.people_visual_note' | t }}</p>
+    </div>
+    <div class="pal-about__people-copy">
+      <p class="eyebrow">{{ 'pal.about.people_eyebrow' | t }}</p>
+      <h2 id="pal-about-people-title">{{ 'pal.about.people_heading_html' | t }}</h2>
+      <p class="pal-about__lead">{{ 'pal.about.people_lead' | t }}</p>
+      <p>{{ 'pal.about.people_body' | t }}</p>
+      <a class="button button-primary" href="{{ routes.all_products_collection_url }}">
+        {{ 'pal.about.people_button' | t }}
+        {% render 'pal-icon', name: 'arrow_up_right' %}
+      </a>
+    </div>
+  </section>
+
+  <section class="pal-about__closing" aria-labelledby="pal-about-closing-title">
+    <p class="eyebrow">{{ 'pal.about.closing_eyebrow' | t }}</p>
+    <h2 id="pal-about-closing-title">{{ 'pal.about.closing_heading_html' | t }}</h2>
+    <p>{{ 'pal.about.closing_body' | t }}</p>
+    <a class="button" href="{{ routes.all_products_collection_url }}?view=build">
+      {{ 'pal.about.closing_button' | t }}
+      {% render 'pal-icon', name: 'arrow_up_right' %}
+    </a>
+  </section>
+</div>
+
+{% stylesheet %}
+  .pal-about { background: var(--cream); view-transition-name: pal-about-page; }
+  .pal-about__hero { min-height: 680px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); border-bottom: 2px solid var(--ink); }
+  .pal-about__hero-copy { padding: clamp(3.5rem, 6vw, 6.5rem) 5vw; display: flex; flex-direction: column; justify-content: center; color: var(--cream); background: var(--ink); }
+  .pal-about__hero h1 { color: var(--cream); font-size: clamp(4rem, 7vw, 8rem); }
+  .pal-about__hero h1 em { color: var(--sun); font-family: "DM Serif Display", serif; font-weight: 400; text-transform: none; }
+  .pal-about__hero-intro { max-width: 35rem; margin: 2.2rem 0 0; font-family: "DM Serif Display", serif; font-size: clamp(1.2rem, 1.8vw, 1.6rem); line-height: 1.4; }
+  .pal-about__route { max-width: 31rem; margin-top: 3rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; color: var(--sun); font-size: .66rem; font-weight: 800; letter-spacing: .16em; }
+  .pal-about__route i { height: 2px; background: currentColor; position: relative; }
+  .pal-about__route i::after { content: ""; width: 8px; height: 8px; position: absolute; right: 0; top: 50%; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: translateY(-50%) rotate(45deg); }
+  .pal-about__hero-visual { min-width: 0; margin: 0; position: relative; overflow: hidden; background: var(--red); }
+  .pal-about__hero-visual img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+  .pal-about__hero-visual:hover img { transform: scale(1.025); }
+  .pal-about__hero-visual figcaption { position: absolute; right: 1.5rem; bottom: 1.5rem; padding: .8rem 1rem; color: var(--ink); background: var(--sun); border: 2px solid var(--ink); font-size: .65rem; font-weight: 800; letter-spacing: .14em; }
+
+  .pal-about__facts { display: grid; grid-template-columns: repeat(3, 1fr); color: var(--ink); background: var(--sun); border-bottom: 2px solid var(--ink); }
+  .pal-about__facts article { min-height: 150px; padding: 1.8rem 2rem; display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; border-right: 2px solid var(--ink); }
+  .pal-about__facts article:last-child { border-right: 0; }
+  .pal-about__facts span { color: var(--red); font-family: "Archivo Black", sans-serif; font-size: 1rem; }
+  .pal-about__facts strong { display: block; font-family: "Archivo Black", sans-serif; font-size: clamp(1.25rem, 2vw, 2rem); line-height: 1; letter-spacing: -.04em; text-transform: uppercase; }
+  .pal-about__facts p { margin: .7rem 0 0; font-size: .84rem; line-height: 1.45; }
+
+  .pal-about__origin { padding: clamp(4rem, 7vw, 6.5rem) 5vw; display: grid; grid-template-columns: .3fr 1.4fr .3fr; gap: clamp(2rem, 4vw, 5rem); align-items: start; border-bottom: 2px solid var(--ink); position: relative; overflow: hidden; }
+  .pal-about__chapter span { display: block; color: var(--red); font-family: "Archivo Black", sans-serif; font-size: clamp(4rem, 8vw, 8rem); line-height: .8; }
+  .pal-about__chapter p { margin: 1.5rem 0 0; font-size: .7rem; font-weight: 800; letter-spacing: .17em; }
+  .pal-about__origin h2 { max-width: 12ch; }
+  .pal-about__origin-body { max-width: 50rem; margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .pal-about__lead { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(1.35rem, 2.3vw, 2.1rem); line-height: 1.28; }
+  .pal-about__origin-body > p:last-child, .pal-about__people-copy > p:not(.eyebrow):not(.pal-about__lead) { margin: 0; font-size: 1rem; line-height: 1.7; }
+  .pal-about__stamp { width: clamp(140px, 14vw, 190px); aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .55rem; border: 3px solid var(--red); border-radius: 50%; color: var(--red); font-size: .62rem; font-weight: 800; letter-spacing: .13em; text-align: center; transform: rotate(8deg); }
+  .pal-about__stamp .pal-icon { width: 2rem; height: 2rem; color: var(--sun); }
+
+  .pal-about__difference { padding: clamp(4.5rem, 7vw, 6.5rem) 5vw; color: var(--cream); background: var(--ink); border-bottom: 2px solid var(--cream); }
+  .pal-about__section-heading { display: grid; grid-template-columns: 1.3fr .7fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+  .pal-about__section-heading h2 em { color: var(--sun); }
+  .pal-about__section-heading > p { max-width: 31rem; margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(1.2rem, 1.7vw, 1.55rem); line-height: 1.4; }
+  .pal-about__pillars { display: grid; grid-template-columns: repeat(3, 1fr); color: var(--ink); border: 2px solid var(--cream); }
+  .pal-about__pillar { min-height: 430px; padding: clamp(2rem, 3.5vw, 3.5rem); display: flex; flex-direction: column; border-right: 2px solid var(--ink); }
+  .pal-about__pillar:last-child { border-right: 0; }
+  .pal-about__pillar--cream { background: var(--cream); }
+  .pal-about__pillar--sun { background: var(--sun); }
+  .pal-about__pillar--red { color: var(--cream); background: var(--red); }
+  .pal-about__pillar > span { font-size: .68rem; font-weight: 800; letter-spacing: .15em; }
+  .pal-about__pillar h3 { margin: auto 0 1.4rem; font-family: "Archivo Black", sans-serif; font-size: clamp(2rem, 3.5vw, 4.2rem); line-height: .92; letter-spacing: -.055em; text-transform: uppercase; }
+  .pal-about__pillar p { min-height: 5em; margin: 0; line-height: 1.55; }
+  .pal-about__pillar strong { margin-top: 2rem; padding-top: 1rem; border-top: 2px solid currentColor; font-size: .65rem; letter-spacing: .13em; }
+
+  .pal-about__people { min-height: 680px; display: grid; grid-template-columns: 1.06fr .94fr; border-bottom: 2px solid var(--ink); }
+  .pal-about__people-visual { min-width: 0; padding: clamp(2rem, 5vw, 5rem); display: grid; grid-template-columns: 1fr .6fr; grid-template-rows: 1fr auto; gap: 1.5rem; position: relative; background: var(--red); }
+  .pal-about__people-visual figure { min-width: 0; margin: 0; overflow: hidden; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+  .pal-about__people-main { transform: rotate(-2deg); }
+  .pal-about__people-detail { align-self: end; transform: rotate(3deg); }
+  .pal-about__people-visual img { width: 100%; height: 100%; min-height: 470px; display: block; object-fit: cover; }
+  .pal-about__people-visual > p { grid-column: 1 / -1; margin: 0; color: var(--cream); font-size: .68rem; font-weight: 800; letter-spacing: .16em; text-align: right; }
+  .pal-about__people-copy { padding: clamp(4rem, 7vw, 7rem) 5vw; display: flex; flex-direction: column; justify-content: center; background: var(--sun); }
+  .pal-about__people-copy h2 { margin-bottom: 2.2rem; }
+  .pal-about__people-copy h2 em { color: var(--red); }
+  .pal-about__people-copy .pal-about__lead { margin-bottom: 1.5rem; }
+  .pal-about__people-copy .button { align-self: flex-start; margin-top: 2.3rem; }
+
+  .pal-about__closing { min-height: 560px; padding: 4.5rem 5vw; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--cream); background: var(--ink); overflow: hidden; position: relative; }
+  .pal-about__closing::before, .pal-about__closing::after { content: ""; width: clamp(180px, 23vw, 350px); aspect-ratio: 1; position: absolute; border: clamp(35px, 5vw, 75px) solid var(--red); transform: rotate(18deg); }
+  .pal-about__closing::before { left: -12%; top: -24%; }
+  .pal-about__closing::after { right: -11%; bottom: -28%; }
+  .pal-about__closing > * { position: relative; z-index: 1; }
+  .pal-about__closing h2 { max-width: 11ch; font-size: clamp(4rem, 9vw, 10rem); }
+  .pal-about__closing h2 em { color: var(--sun); }
+  .pal-about__closing > p:not(.eyebrow) { max-width: 36rem; margin: 2rem auto 0; font-family: "DM Serif Display", serif; font-size: 1.35rem; line-height: 1.4; }
+  .pal-about__closing .button { margin-top: 2.5rem; color: var(--ink); background: var(--sun); border-color: var(--cream); box-shadow: 6px 6px 0 var(--cream); }
+
+  @media (max-width: 900px) {
+    .pal-about__hero, .pal-about__people { grid-template-columns: 1fr; }
+    .pal-about__hero-visual { min-height: 520px; }
+    .pal-about__facts { grid-template-columns: 1fr; }
+    .pal-about__facts article { min-height: 0; border-right: 0; border-bottom: 2px solid var(--ink); }
+    .pal-about__facts article:last-child { border-bottom: 0; }
+    .pal-about__origin { grid-template-columns: .3fr 1fr; }
+    .pal-about__stamp { position: absolute; right: 3rem; top: 3rem; }
+    .pal-about__origin-copy { padding-top: 8rem; }
+    .pal-about__pillars { grid-template-columns: 1fr; }
+    .pal-about__pillar { min-height: 330px; border-right: 0; border-bottom: 2px solid var(--ink); }
+    .pal-about__pillar:last-child { border-bottom: 0; }
+    .pal-about__pillar p { min-height: 0; }
+    .pal-about__people-copy { min-height: 540px; }
+  }
+
+  @media (max-width: 680px) {
+    .pal-about__hero { min-height: 0; }
+    .pal-about__hero-copy { min-height: 0; padding: 3.4rem 1.25rem 2.8rem; }
+    .pal-about__hero h1 { max-width: 8ch; font-size: clamp(3.15rem, 14.2vw, 4.1rem); }
+    .pal-about__hero-intro { margin-top: 1.6rem; font-size: 1.16rem; line-height: 1.42; }
+    .pal-about__route { margin-top: 2.2rem; gap: .65rem; font-size: .52rem; letter-spacing: .12em; }
+    .pal-about__hero-visual { min-height: 315px; }
+    .pal-about__hero-visual img { object-position: center 54%; }
+    .pal-about__hero-visual figcaption { right: 1rem; bottom: 1rem; }
+
+    .pal-about__facts { padding: 1rem 1.25rem 1.2rem; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(78vw, 1fr); gap: .75rem; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: inline mandatory; scrollbar-width: none; }
+    .pal-about__facts::-webkit-scrollbar { display: none; }
+    .pal-about__facts article { min-height: 190px; padding: 1.35rem 1.25rem; grid-template-columns: 1fr; gap: 1rem; align-content: space-between; border: 2px solid var(--ink); scroll-snap-align: start; }
+    .pal-about__facts article:last-child { border-bottom: 2px solid var(--ink); }
+    .pal-about__facts strong { font-size: 1.55rem; }
+    .pal-about__facts p { max-width: 30ch; margin-top: .65rem; font-size: .9rem; }
+
+    .pal-about__origin { min-height: 0; padding: 3.6rem 1.25rem; grid-template-columns: 1fr; gap: 2rem; }
+    .pal-about__chapter { display: flex; align-items: center; gap: .85rem; }
+    .pal-about__chapter span { font-size: 2rem; line-height: 1; }
+    .pal-about__chapter p { margin: 0; }
+    .pal-about__origin-copy { padding-top: 0; }
+    .pal-about__origin h2 { font-size: clamp(3rem, 13vw, 4rem); }
+    .pal-about__origin-body { margin-top: 2rem; grid-template-columns: 1fr; gap: 1.35rem; }
+    .pal-about__origin-body > p:last-child { line-height: 1.58; }
+    .pal-about__stamp { width: 108px; margin-top: .5rem; position: static; font-size: .52rem; }
+
+    .pal-about__difference { padding: 3.8rem 0; overflow: hidden; }
+    .pal-about__section-heading { padding: 0 1.25rem; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2.2rem; }
+    .pal-about__section-heading h2 { font-size: clamp(3rem, 13vw, 4rem); }
+    .pal-about__pillars { width: 100%; padding: 0 1.25rem .9rem; display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(80vw, 1fr); gap: .8rem; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: inline mandatory; scrollbar-width: none; border: 0; }
+    .pal-about__pillars::-webkit-scrollbar { display: none; }
+    .pal-about__pillar { min-height: 360px; padding: 2rem 1.5rem; border: 2px solid var(--cream); scroll-snap-align: center; }
+    .pal-about__pillar:last-child { border-bottom: 2px solid var(--cream); }
+    .pal-about__pillar h3 { margin-top: auto; font-size: clamp(2.25rem, 10vw, 3.2rem); }
+
+    .pal-about__people { display: flex; flex-direction: column; }
+    .pal-about__people-copy { min-height: 0; padding: 3.8rem 1.25rem; order: 1; }
+    .pal-about__people-copy h2 { margin-bottom: 1.5rem; font-size: clamp(3rem, 13vw, 4rem); }
+    .pal-about__people-copy .button { width: 100%; margin-top: 2rem; justify-content: space-between; }
+    .pal-about__people-visual { min-height: 460px; padding: 2.3rem 1.25rem 1.6rem; grid-template-columns: 1fr .58fr; gap: .8rem; order: 2; }
+    .pal-about__people-visual figure { box-shadow: 7px 7px 0 var(--ink); }
+    .pal-about__people-visual img { min-height: 350px; }
+    .pal-about__people-visual > p { font-size: .58rem; }
+
+    .pal-about__closing { min-height: 460px; padding: 3.7rem 1.25rem; }
+    .pal-about__closing h2 { font-size: clamp(3.35rem, 14vw, 4.8rem); }
+    .pal-about__closing > p:not(.eyebrow) { margin-top: 1.5rem; font-size: 1.18rem; }
+    .pal-about__closing .button { width: 100%; margin-top: 2rem; justify-content: space-between; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pal-about__hero-visual img { transition: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Pal Antojo story",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Pal Antojo story"
+    }
+  ]
+}
+{% endschema %}

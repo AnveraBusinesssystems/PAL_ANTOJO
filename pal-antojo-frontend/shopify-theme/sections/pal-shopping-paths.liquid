@@ -1,0 +1,96 @@
+<section class="pa-paths" style="--pa-paths-bg: {{ section.settings.background }}; --pa-paths-text: {{ section.settings.text_color }};">
+  <div class="pa-paths__inner">
+    <div class="pa-paths__header">
+      {% if section.settings.eyebrow != blank %}<p>{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {% if section.settings.intro != blank %}<div class="pa-paths__intro">{{ section.settings.intro }}</div>{% endif %}
+    </div>
+
+    <div class="pa-paths__grid">
+      {% for block in section.blocks %}
+        <article class="pa-path" style="--pa-card-bg: {{ block.settings.background }}; --pa-card-text: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <div class="pa-path__media">
+              {{ block.settings.image | image_url: width: 1600 | image_tag: widths: '480, 720, 960, 1200, 1600', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy' }}
+            </div>
+          {% endif %}
+          <div class="pa-path__content">
+            {% if block.settings.kicker != blank %}<p class="pa-path__kicker">{{ block.settings.kicker | escape }}</p>{% endif %}
+            <h3>{{ block.settings.title | escape }}</h3>
+            {% if block.settings.tagline != blank %}<p class="pa-path__tagline">{{ block.settings.tagline | escape }}</p>{% endif %}
+            {% if block.settings.description != blank %}<div class="pa-path__description">{{ block.settings.description }}</div>{% endif %}
+            {% if block.settings.link != blank and block.settings.button_label != blank %}
+              <a class="pa-path__button" href="{{ block.settings.link }}">{{ block.settings.button_label | escape }} {% render 'pal-icon', name: 'arrow_right' %}</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pa-paths{background:var(--pa-paths-bg);color:var(--pa-paths-text);padding:clamp(48px,7vw,92px) var(--page-margin)}
+  .pa-paths__inner{width:min(1280px,100%);margin:0 auto}
+  .pa-paths__header{display:grid;grid-template-columns:minmax(0,.8fr) minmax(260px,1.2fr);gap:28px;align-items:end;margin-bottom:32px}
+  .pa-paths__header>p{grid-column:1/-1;margin:0;color:#9b3025;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .pa-paths__header h2{margin:0;font-size:clamp(38px,5vw,68px);line-height:.96;letter-spacing:-.045em}
+  .pa-paths__intro{font-size:clamp(17px,1.7vw,21px);line-height:1.45}
+  .pa-paths__intro p{margin:0}
+  .pa-paths__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .pa-path{position:relative;display:flex;min-height:520px;flex-direction:column;overflow:hidden;background:var(--pa-card-bg);color:var(--pa-card-text);border:2px solid currentColor}
+  .pa-path__media{position:absolute;inset:0}
+  .pa-path__media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.04) 70%)}
+  .pa-path__media img{width:100%;height:100%;object-fit:cover}
+  .pa-path__content{position:relative;z-index:1;display:flex;min-height:100%;flex:1;flex-direction:column;justify-content:flex-end;padding:clamp(28px,4vw,52px)}
+  .pa-path__media+.pa-path__content{color:#fff}
+  .pa-path__kicker{margin:0 0 10px;font-size:12px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+  .pa-path h3{margin:0;max-width:11ch;font-size:clamp(36px,5vw,64px);line-height:.94;letter-spacing:-.04em;text-transform:uppercase}
+  .pa-path__tagline{margin:18px 0 0;font-size:clamp(19px,2vw,25px);font-weight:750;line-height:1.15}
+  .pa-path__description{max-width:45ch;margin-top:12px;font-size:16px;line-height:1.5}
+  .pa-path__description p{margin:0}
+  .pa-path__button{display:inline-flex;min-height:48px;width:fit-content;align-items:center;justify-content:space-between;gap:22px;margin-top:28px;padding:12px 18px;border:2px solid currentColor;color:inherit;text-decoration:none;font-size:13px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+  .pa-path__button:hover{background:#f5f0e8;color:#1b4332}
+  .pa-path__button:focus-visible{outline:3px solid #e5ad35;outline-offset:4px}
+  @media(max-width:749px){.pa-paths{padding:44px 16px}.pa-paths__header{grid-template-columns:1fr;gap:14px;margin-bottom:24px}.pa-paths__header>p{grid-column:auto}.pa-paths__grid{grid-template-columns:1fr}.pa-path{min-height:440px}.pa-path__content{padding:28px 22px}.pa-path__button{width:100%}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "PAL shopping paths",
+  "max_blocks": 2,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "PICK YOUR ANTOJO" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "START WITH A BOX." },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>New here or know exactly what you want? Choose the path that fits your craving.</p>" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#f5f0e8" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#1b4332" }
+  ],
+  "blocks": [
+    {
+      "type": "path",
+      "name": "Shopping path",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "EASIEST FIRST ORDER" },
+        { "type": "text", "id": "title", "label": "Title", "default": "PAL ANTOJO VARIETY BOX" },
+        { "type": "text", "id": "tagline", "label": "Tagline", "default": "Can't choose? We've got you." },
+        { "type": "richtext", "id": "description", "label": "Description", "default": "<p>A curated mix of favorites for a little bit of everything.</p>" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "TRY THE VARIETY BOX" },
+        { "type": "color", "id": "background", "label": "Card background", "default": "#c0392b" },
+        { "type": "color", "id": "text_color", "label": "Card text", "default": "#f5f0e8" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PAL shopping paths",
+      "blocks": [
+        { "type": "path" },
+        { "type": "path", "settings": { "kicker": "MIX IT YOUR WAY", "title": "BUILD YOUR ANTOJO BOX", "tagline": "Your box. Your cravings.", "description": "<p>Pick a box size, choose your flavors, and save when you stock up.</p>", "button_label": "BUILD YOUR BOX", "background": "#1b4332" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

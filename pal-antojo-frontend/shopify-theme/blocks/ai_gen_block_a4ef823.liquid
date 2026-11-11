@@ -1,0 +1,105 @@
+{% doc %}
+Renders the Pal Antojo bilingual About page with a visitor-controlled language switcher.
+{% enddoc %}
+
+<section id="pal-antojo-about-{{ block.id }}" class="pal-about" data-pal-about {{ block.shopify_attributes }}>
+  <div class="pal-about__shell">
+    <div class="pal-about__switcher" role="group" aria-label="Choose page language">
+      <button class="pal-about__language is-active" type="button" data-pal-language="en" aria-pressed="true" aria-controls="pal-about-en-{{ block.id }}">English</button>
+      <button class="pal-about__language" type="button" data-pal-language="es" aria-pressed="false" aria-controls="pal-about-es-{{ block.id }}">Español</button>
+    </div>
+
+    <div id="pal-about-en-{{ block.id }}" class="pal-about__panel" data-pal-panel="en" lang="en">
+      <div class="pal-about__hero">
+        <div class="pal-about__hero-copy">
+          <p class="pal-about__eyebrow">Our story</p>
+          <h1>Cravings,<br>reimagined.</h1>
+          <p class="pal-about__lead">Mexican-inspired crunch, bold flavor, and a more intentional kind of snack—born in McAllen, Texas.</p>
+        </div>
+        <div class="pal-about__statement" aria-label="Brand statement">
+          <span>Mexican culture.</span>
+          <span>Bold flavor.</span>
+          <span>Good snacks.</span>
+        </div>
+      </div>
+
+      <div class="pal-about__story-grid">
+        <div>
+          <p class="pal-about__section-label">Why we started</p>
+          <h2>Snacks should feel exciting, familiar, and worth choosing.</h2>
+        </div>
+        <div class="pal-about__story-copy">
+          <p>Pal Antojo began with a simple idea. Founder New Angel Ramirez Duenas wanted the bold flavors he grew up with, without settling for the usual snack-aisle experience.</p>
+          <p>From McAllen, Texas, Pal Antojo brings Mexican-inspired flavor to a colorful lineup of fruit and vegetable chips made for sharing, discovering, and craving again.</p>
+        </div>
+      </div>
+
+      <div class="pal-about__values">
+        <article class="pal-about__value pal-about__value--red"><span>01</span><h3>Mexican inspiration</h3><p>Familiar, joyful flavor with a proud connection to culture.</p></article>
+        <article class="pal-about__value pal-about__value--gold"><span>02</span><h3>Bold flavor</h3><p>Crunch, color, and flavor that make every bag feel special.</p></article>
+        <article class="pal-about__value pal-about__value--cream"><span>03</span><h3>A more intentional choice</h3><p>Looking beyond the ordinary snack aisle for fruit and vegetable chip options with satisfying flavor.</p></article>
+      </div>
+
+      <div class="pal-about__local">
+        <div><p class="pal-about__section-label">McAllen, Texas</p><h2>Local to the RGV.</h2></div>
+        <p>Pal Antojo offers local delivery across the Rio Grande Valley. Orders placed before 12 PM may be eligible for same-day delivery; otherwise, most local orders arrive the following day. Timing depends on destination and availability.</p>
+      </div>
+
+      <div class="pal-about__actions">
+        <a class="pal-about__button pal-about__button--primary" href="{{ routes.all_products_collection_url }}">Shop all flavors {% render 'pal-icon', name: 'arrow_right' %}</a>
+        <a class="pal-about__button pal-about__button--secondary" href="/pages/contact">Contact us {% render 'pal-icon', name: 'arrow_right' %}</a>
+      </div>
+    </div>
+
+    <div id="pal-about-es-{{ block.id }}" class="pal-about__panel" data-pal-panel="es" lang="es" hidden>
+      <div class="pal-about__hero">
+        <div class="pal-about__hero-copy">
+          <p class="pal-about__eyebrow">Nuestra historia</p>
+          <h1>Antojos,<br>reimaginados.</h1>
+          <p class="pal-about__lead">Crujido con inspiración mexicana, sabor intenso y una forma más consciente de disfrutar un antojo—desde McAllen, Texas.</p>
+        </div>
+        <div class="pal-about__statement" aria-label="Declaración de la marca">
+          <span>Cultura mexicana.</span><span>Sabor intenso.</span><span>Buenas botanas.</span>
+        </div>
+      </div>
+
+      <div class="pal-about__story-grid">
+        <div><p class="pal-about__section-label">Por qué comenzamos</p><h2>Las botanas deben sentirse emocionantes, familiares y dignas de elegir.</h2></div>
+        <div class="pal-about__story-copy">
+          <p>Pal Antojo nació de una idea sencilla. Su fundador, New Angel Ramirez Duenas, quería los sabores intensos con los que creció, sin conformarse con lo de siempre en el pasillo de botanas.</p>
+          <p>Desde McAllen, Texas, Pal Antojo lleva inspiración mexicana a una colorida selección de chips de frutas y vegetales, pensados para compartir, descubrir y volver a antojar.</p>
+        </div>
+      </div>
+
+      <div class="pal-about__values">
+        <article class="pal-about__value pal-about__value--red"><span>01</span><h3>Inspiración mexicana</h3><p>Sabor familiar y alegre, con una conexión orgullosa con nuestra cultura.</p></article>
+        <article class="pal-about__value pal-about__value--gold"><span>02</span><h3>Sabor intenso</h3><p>Crujido, color y sabor que hacen que cada bolsa se sienta especial.</p></article>
+        <article class="pal-about__value pal-about__value--cream"><span>03</span><h3>Una elección más consciente</h3><p>Buscamos más allá de las botanas de siempre: chips de frutas y vegetales con un sabor que satisface.</p></article>
+      </div>
+
+      <div class="pal-about__local">
+        <div><p class="pal-about__section-label">McAllen, Texas</p><h2>Locales en el RGV.</h2></div>
+        <p>Pal Antojo ofrece entrega local en todo el Valle del Río Grande. Los pedidos realizados antes de las 12 PM pueden ser elegibles para entrega el mismo día; de lo contrario, la mayoría de los pedidos locales llegan al día siguiente. El tiempo depende del destino y la disponibilidad.</p>
+      </div>
+
+      <div class="pal-about__actions">
+        <a class="pal-about__button pal-about__button--primary" href="{{ routes.all_products_collection_url }}">Ver todos los sabores {% render 'pal-icon', name: 'arrow_right' %}</a>
+        <a class="pal-about__button pal-about__button--secondary" href="/pages/contact">Contáctanos {% render 'pal-icon', name: 'arrow_right' %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.pal-about{--pal-cream:#faf6ef;--pal-paper:#fffdf8;--pal-ink:#171714;--pal-green:#1d4934;--pal-red:#b83a2f;--pal-gold:#e5ad35;background:var(--pal-cream);color:var(--pal-ink);padding:clamp(28px,5vw,76px) 20px}.pal-about *,.pal-about *::before,.pal-about *::after{box-sizing:border-box;border-radius:0!important}.pal-about__shell{width:min(1280px,100%);margin:0 auto}.pal-about__switcher{display:none;grid-template-columns:1fr 1fr;width:min(440px,100%);margin:0 auto clamp(30px,5vw,58px);border:2px solid var(--pal-ink);background:var(--pal-paper)}.pal-about__language{min-height:48px;border:0;background:transparent;color:var(--pal-ink);font:inherit;font-size:14px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;cursor:pointer}.pal-about__language+.pal-about__language{border-left:2px solid var(--pal-ink)}.pal-about__language.is-active{background:var(--pal-green);color:var(--pal-paper)}.pal-about__language:focus-visible,.pal-about__button:focus-visible{outline:3px solid var(--pal-gold);outline-offset:4px}.pal-about__panel[hidden]{display:none!important}.pal-about__hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);align-items:stretch;border:3px solid var(--pal-ink);background:var(--pal-paper)}.pal-about__hero-copy{padding:clamp(30px,6vw,84px)}.pal-about__eyebrow,.pal-about__section-label{margin:0 0 18px;color:var(--pal-red);font-size:13px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.pal-about h1{margin:0;max-width:none;overflow-wrap:normal;word-break:keep-all;font-size:clamp(54px,8.5vw,124px);line-height:.82;letter-spacing:-.065em;text-transform:uppercase}.pal-about__lead{max-width:660px;margin:34px 0 0;font-size:clamp(18px,2vw,25px);line-height:1.45}.pal-about__statement{display:flex;flex-direction:column;justify-content:center;gap:18px;padding:clamp(30px,5vw,64px);border-left:3px solid var(--pal-ink);background:var(--pal-green);color:var(--pal-paper);font-size:clamp(27px,3.5vw,48px);font-weight:800;line-height:1.02}.pal-about__statement span{padding-bottom:18px;border-bottom:2px solid rgba(255,255,255,.38)}.pal-about__statement span:last-child{padding-bottom:0;border-bottom:0}.pal-about__story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,7vw,96px);padding:clamp(54px,8vw,104px) clamp(4px,3vw,44px);align-items:start}.pal-about__story-grid h2,.pal-about__local h2{margin:0;font-size:clamp(34px,4.6vw,64px);line-height:.98;letter-spacing:-.035em}.pal-about__story-copy{font-size:clamp(18px,1.7vw,23px);line-height:1.55}.pal-about__story-copy p{margin:0 0 24px}.pal-about__values{display:grid;grid-template-columns:repeat(3,1fr);border:3px solid var(--pal-ink)}.pal-about__value{min-height:310px;padding:clamp(28px,4vw,50px);display:flex;flex-direction:column}.pal-about__value+.pal-about__value{border-left:3px solid var(--pal-ink)}.pal-about__value>span{font-size:14px;font-weight:900;letter-spacing:.1em}.pal-about__value h3{margin:auto 0 18px;font-size:clamp(27px,3vw,42px);line-height:1}.pal-about__value p{margin:0;font-size:17px;line-height:1.5}.pal-about__value--red{background:var(--pal-red);color:var(--pal-paper)}.pal-about__value--gold{background:var(--pal-gold)}.pal-about__value--cream{background:var(--pal-paper)}.pal-about__local{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,7vw,96px);align-items:center;margin-top:clamp(36px,6vw,72px);padding:clamp(34px,5vw,68px);border:3px solid var(--pal-ink);background:var(--pal-green);color:var(--pal-paper)}.pal-about__local .pal-about__section-label{color:var(--pal-gold)}.pal-about__local>p{margin:0;font-size:clamp(18px,1.7vw,23px);line-height:1.55}.pal-about__actions{display:grid;grid-template-columns:1fr 1fr;border:3px solid var(--pal-ink);border-top:0}.pal-about__button{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 24px;color:var(--pal-ink);text-decoration:none;font-weight:900;letter-spacing:.045em;text-transform:uppercase}.pal-about__button+.pal-about__button{border-left:3px solid var(--pal-ink)}.pal-about__button--primary{background:var(--pal-gold)}.pal-about__button--secondary{background:var(--pal-paper)}.pal-about__button:hover{background:var(--pal-red);color:var(--pal-paper)}
+@media(max-width:760px){.pal-about{box-sizing:border-box;width:100%;max-width:100%;padding:18px 16px 36px;overflow-x:clip}.pal-about__shell{width:100%;min-width:0}.pal-about__hero,.pal-about__story-grid,.pal-about__local{grid-template-columns:1fr}.pal-about__hero,.pal-about__values,.pal-about__local,.pal-about__actions{border-width:2px}.pal-about__hero-copy{padding:32px 20px 36px}.pal-about h1{max-width:none;font-size:clamp(40px,13vw,54px);line-height:.88;letter-spacing:-.055em;overflow-wrap:normal;word-break:keep-all}.pal-about__lead{margin-top:22px;font-size:17px;line-height:1.5}.pal-about__statement{gap:14px;border-left:0;border-top:2px solid var(--pal-ink);padding:26px 20px;font-size:clamp(25px,8vw,32px)}.pal-about__statement span{padding-bottom:14px}.pal-about__story-grid{gap:22px;padding:46px 2px}.pal-about__story-grid h2,.pal-about__local h2{font-size:clamp(30px,9vw,38px);line-height:1.02}.pal-about__story-copy{font-size:17px;line-height:1.55}.pal-about__values{grid-template-columns:1fr}.pal-about__value{min-height:0;padding:26px 22px}.pal-about__value h3{margin:40px 0 14px;font-size:clamp(26px,8vw,34px)}.pal-about__value+.pal-about__value{border-left:0;border-top:2px solid var(--pal-ink)}.pal-about__local{gap:22px;margin-top:32px;padding:30px 20px}.pal-about__local>p{font-size:17px;line-height:1.55}.pal-about__actions{grid-template-columns:1fr}.pal-about__button{min-height:58px;padding:14px 18px;font-size:14px}.pal-about__button+.pal-about__button{border-left:0;border-top:2px solid var(--pal-ink)}}
+@media(prefers-reduced-motion:no-preference){.pal-about__language,.pal-about__button{transition:background-color .18s ease,color .18s ease}}
+{% endstylesheet %}
+
+{% javascript %}
+(()=>{const initialize=(root)=>{if(root.dataset.languageReady==='true')return;root.dataset.languageReady='true';const buttons=[...root.querySelectorAll('[data-pal-language]')];const panels=[...root.querySelectorAll('[data-pal-panel]')];buttons.forEach((button)=>{const active=button.dataset.palLanguage==='en';button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false')});panels.forEach((panel)=>{panel.hidden=panel.dataset.palPanel!=='en'})};document.querySelectorAll('[data-pal-about]').forEach(initialize);document.addEventListener('shopify:section:load',(event)=>event.target.querySelectorAll('[data-pal-about]').forEach(initialize))})();
+{% endjavascript %}
+
+{% schema %}
+{"name":"Pal Antojo about","settings":[],"presets":[{"name":"Pal Antojo about"}]}
+{% endschema %}

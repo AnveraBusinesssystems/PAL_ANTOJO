@@ -1,0 +1,118 @@
+{% doc %}
+  Renders fixed Instagram and WhatsApp links on storefront pages.
+
+  @param {string} instagram_url - The Instagram profile URL.
+  @param {string} whatsapp_url - The WhatsApp conversation URL.
+
+  @example
+  {% render 'floating-social-links', instagram_url: 'https://www.instagram.com/example/', whatsapp_url: 'https://wa.me/15555555555' %}
+{% enddoc %}
+
+{% if instagram_url != blank or whatsapp_url != blank %}
+  <nav class="floating-social-links" aria-label="Contact Pal Antojo">
+    {% if instagram_url != blank %}
+      <a
+        class="floating-social-links__link floating-social-links__link--instagram"
+        href="{{ instagram_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit Pal Antojo on Instagram"
+        title="Visit Pal Antojo on Instagram"
+      >
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          {% render 'icon', icon: 'instagram' %}
+        </svg>
+      </a>
+    {% endif %}
+
+    {% if whatsapp_url != blank %}
+      <a
+        class="floating-social-links__link floating-social-links__link--whatsapp"
+        href="{{ whatsapp_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Message Pal Antojo on WhatsApp"
+        title="Message Pal Antojo on WhatsApp"
+      >
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          {% render 'icon', icon: 'whatsapp' %}
+        </svg>
+      </a>
+    {% endif %}
+  </nav>
+{% endif %}
+
+{% stylesheet %}
+  .floating-social-links {
+    position: fixed;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: var(--layer-sticky);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .floating-social-links__link {
+    display: grid;
+    width: 56px;
+    height: 56px;
+    place-items: center;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    color: var(--cream);
+    box-shadow: 4px 4px 0 var(--sun);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+
+  .floating-social-links__link--instagram {
+    background: var(--red);
+  }
+
+  .floating-social-links__link--whatsapp {
+    background: var(--ink);
+  }
+
+  .floating-social-links__link svg {
+    width: 27px;
+    height: 27px;
+    fill: currentColor;
+  }
+
+  .floating-social-links__link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--sun);
+  }
+
+  .floating-social-links__link:focus-visible {
+    outline: 3px solid var(--cream);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 749px) {
+    .floating-social-links {
+      right: max(12px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
+    }
+
+    .floating-social-links__link {
+      width: 46px;
+      height: 46px;
+    }
+
+    .floating-social-links__link svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .floating-social-links__link--instagram {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-social-links__link {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

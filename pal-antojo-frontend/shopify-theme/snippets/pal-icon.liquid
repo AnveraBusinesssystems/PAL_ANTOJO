@@ -1,0 +1,25 @@
+{% doc %}
+  Renders a small monochrome interface icon that inherits the surrounding text color.
+
+  @param {string} name - Icon name: arrow_right, arrow_up_right, spark, or diamond.
+  @param {string} [class] - Optional additional CSS class.
+
+  @example
+  {% render 'pal-icon', name: 'arrow_right' %}
+{% enddoc %}
+
+{% assign icon_class = 'pal-icon' %}
+{% if class != blank %}
+  {% assign icon_class = icon_class | append: ' ' | append: class %}
+{% endif %}
+
+{% case name %}
+  {% when 'arrow_up_right' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 15 15 5M7 5h8v8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2"/></svg>
+  {% when 'spark' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 2.5 11.8 8l5.7 2-5.7 2-1.8 5.5L8.2 12l-5.7-2 5.7-2L10 2.5Z" fill="currentColor"/></svg>
+  {% when 'diamond' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m10 4 6 6-6 6-6-6 6-6Z" fill="currentColor"/></svg>
+  {% else %}
+    <svg class="{{ icon_class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2"/></svg>
+{% endcase %}

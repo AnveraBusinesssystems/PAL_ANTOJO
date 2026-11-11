@@ -1,0 +1,92 @@
+{% doc %}
+  @prompt
+    Work only on the COLLECTION template in this Shopify theme (ID 188097495268). Do NOT publish. Do not modify products, prices, inventory, images, product titles, global header/footer, product template, contact template, or homepage.
+    
+    GOAL: Turn /collections/all from a generic catalog into a polished, conversion-focused Pal Antojo shopping page while preserving the native Shopify collection product grid, pagination, filtering, sorting, quick-add behavior, and accessibility.
+    
+    --- COLLECTION INTRO (place ABOVE the native Collection section) ---
+    Replace the generic large "Products" heading with a compact branded discovery header:
+    - Eyebrow: "SHOP PAL ANTOJO" (small caps, chile-red or gold accent)
+    - Headline: "FIND YOUR ANTOJO." (large, bold, deep green)
+    - Supporting copy: "Choose your crunch, pick your flavor, and discover a snack worth craving again."
+    - Three accessible category pill/button links:
+      - SHOP ALL → /collections/all
+      - FRUIT CHIPS → /collections/fruit-chips
+      - VEGETABLE CHIPS → /collections/vegetable-chips
+    - The active/current collection pill should be visually distinct (e.g., filled deep green vs outlined).
+    - Visual system: warm cream background, deep green headings and primary states, chile-red accents, subtle gold dividers.
+    - Keep intro compact so products appear quickly; remove excessive empty vertical space.
+    
+    --- NATIVE PRODUCT GRID (do NOT touch) ---
+    - Keep the existing native collection section and all products exactly as-is.
+    - Preserve native filters, sorting, product links, prices, and Add/quick-add behavior.
+    - Improve hierarchy and spacing around collection controls only if possible via scoped CSS.
+    - Product images remain the visual focus.
+    - Ensure product titles and prices are consistently aligned; Add buttons must be usable on touch (not hover-only).
+    - Do NOT invent heat levels, ingredients, badges, reviews, sale pricing, product claims, or metadata.
+    
+    --- RESPONSIVE / ACCESSIBILITY ---
+    - Desktop: compact intro, clear category navigation, four-column grid if already supported by theme.
+    - Mobile: category pills scroll horizontally or wrap cleanly; preserve native two-column product grid; touch targets minimum 44px; no clipped text; no horizontal page overflow.
+    - Semantic heading order (h1 for headline, h2/h3 for subsequent headings).
+    - Accessible contrast and visible focus states on all interactive elements.
+    
+    Reuse native theme sections/settings where practical. Scoped custom Liquid/CSS is acceptable only on the collection template — do not affect any other template or global styles. Place the AI-generated intro section ABOVE the native Collection section and leave the native grid intact.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-intro-{{ ai_gen_id }} {
+    display: block;
+    box-sizing: border-box;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 24px 24px 20px;
+    background: #f5f0e8;
+    color: #1c1c1c;
+    border-bottom: 1px solid #c9972c;
+  }
+  .ai-collection-intro-{{ ai_gen_id }}__inner { max-width: 1280px; margin: 0 auto; }
+  .ai-collection-intro-{{ ai_gen_id }}__eyebrow { margin: 0 0 6px; color: #9b3025; font-size: 12px; font-weight: 700; letter-spacing: .14em; }
+  .ai-collection-intro-{{ ai_gen_id }}__heading { margin: 0; color: #1b4332; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; font-weight: 800; letter-spacing: .01em; }
+  .ai-collection-intro-{{ ai_gen_id }}__copy { max-width: 650px; margin: 9px 0 16px; font-size: 16px; line-height: 1.5; }
+  .ai-collection-intro-{{ ai_gen_id }}__nav { display: flex; flex-wrap: wrap; gap: 9px; }
+  .ai-collection-intro-{{ ai_gen_id }}__pill { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 9px 18px; border: 1px solid #1b4332; border-radius: 999px; color: #1b4332; background: transparent; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-decoration: none; }
+  .ai-collection-intro-{{ ai_gen_id }}__pill[aria-current="page"] { color: #f5f0e8; background: #1b4332; }
+  .ai-collection-intro-{{ ai_gen_id }}__pill:focus-visible { outline: 3px solid #9b3025; outline-offset: 3px; }
+  @media screen and (max-width: 749px) {
+    .ai-collection-intro-{{ ai_gen_id }} { padding: 20px 16px 16px; }
+    .ai-collection-intro-{{ ai_gen_id }}__copy { font-size: 15px; }
+    .ai-collection-intro-{{ ai_gen_id }}__nav { flex-wrap: nowrap; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: thin; }
+    .ai-collection-intro-{{ ai_gen_id }}__pill { flex: 0 0 auto; }
+  }
+{% endstyle %}
+
+<section class="ai-collection-intro-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-collection-intro-{{ ai_gen_id }}__inner">
+    <p class="ai-collection-intro-{{ ai_gen_id }}__eyebrow">{{ block.settings.eyebrow | escape }}</p>
+    <h1 class="ai-collection-intro-{{ ai_gen_id }}__heading">{{ block.settings.headline | escape }}</h1>
+    <p class="ai-collection-intro-{{ ai_gen_id }}__copy">{{ block.settings.supporting_copy | escape }}</p>
+    <nav class="ai-collection-intro-{{ ai_gen_id }}__nav" aria-label="Shop snack categories">
+      <a class="ai-collection-intro-{{ ai_gen_id }}__pill" href="/collections/all"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>SHOP ALL</a>
+      <a class="ai-collection-intro-{{ ai_gen_id }}__pill" href="/collections/fruit-chips"{% if collection.handle == 'fruit-chips' %} aria-current="page"{% endif %}>FRUIT CHIPS</a>
+      <a class="ai-collection-intro-{{ ai_gen_id }}__pill" href="/collections/vegetable-chips"{% if collection.handle == 'vegetable-chips' %} aria-current="page"{% endif %}>VEGETABLE CHIPS</a>
+    </nav>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection intro",
+  "settings": [
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "SHOP PAL ANTOJO" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "FIND YOUR ANTOJO." },
+    { "type": "text", "id": "supporting_copy", "label": "Supporting copy", "default": "Choose your crunch, pick your flavor, and discover a snack worth craving again." }
+  ],
+  "presets": [{ "name": "Collection intro" }],
+  "tag": null,
+  "class": "collection-intro-block"
+}
+{% endschema %}

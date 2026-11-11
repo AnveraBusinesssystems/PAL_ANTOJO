@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-labelledby="title">
+  <title id="title">Placeholder for logo-500.png</title>
+  <rect width="500" height="500" rx="36" fill="#f5f0e8" stroke="#1b4332" stroke-width="10"/>
+  <text x="250" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#1b4332">PAL ANTOJO LOGO</text>
+  <text x="250" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#c0392b">logo-500.png</text>
+</svg>

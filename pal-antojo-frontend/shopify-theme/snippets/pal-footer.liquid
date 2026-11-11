@@ -1,0 +1,17 @@
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand"><a href="{{ routes.root_url }}"><img src="{{ 'logo-500.placeholder.svg' | asset_url }}" alt="Placeholder for logo-500.png" width="500" height="500" loading="lazy" decoding="async"></a><p>{{ 'pal.footer.description' | t }}</p></div>
+    <div class="footer-links"><p>{{ 'pal.footer.explore' | t }}</p><a href="{{ routes.root_url }}">{{ 'pal.navigation.home' | t }}</a><a href="{{ routes.all_products_collection_url }}">{{ 'pal.navigation.flavors' | t }}</a><a href="/pages/about-pal-antojo">{{ 'pal.navigation.story' | t }}</a></div>
+    <div class="footer-links"><p>{{ 'pal.footer.shop' | t }}</p><a href="{{ routes.all_products_collection_url }}?view=build">{{ 'pal.navigation.build' | t }}</a><a href="{{ routes.all_products_collection_url }}?view=build&amp;mode=surprise#build">{{ 'pal.footer.surprise' | t }}</a><a href="{{ routes.all_products_collection_url }}">{{ 'pal.footer.catalog' | t }}</a></div>
+    <div class="footer-signup"><p>{{ 'pal.footer.signup_label' | t }}</p><h3>{{ 'pal.footer.signup_heading_html' | t }}</h3>
+      {% form 'customer', class: 'newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="sr-only" for="FooterEmail">{{ 'pal.footer.email' | t }}</label>
+        <input id="FooterEmail" type="email" name="contact[email]" placeholder="{{ 'pal.footer.email' | t }}" autocomplete="email" required>
+        <button type="submit">{{ 'pal.footer.join' | t }} {% render 'pal-icon', name: 'arrow_right' %}</button>
+      {% endform %}
+      <small>{{ 'pal.footer.signup_note' | t }}</small>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© {{ 'now' | date: '%Y' }} {{ shop.name | upcase }}</span><div>{% if settings.social_instagram_url != blank %}<a href="{{ settings.social_instagram_url }}">INSTAGRAM {% render 'pal-icon', name: 'arrow_up_right' %}</a>{% endif %}<a href="/pages/contact">{{ 'pal.footer.contact' | t }}</a>{% if shop.refund_policy != blank %}<a href="{{ shop.refund_policy.url }}">{{ shop.refund_policy.title | upcase }}</a>{% endif %}{% if shop.shipping_policy != blank %}<a href="{{ shop.shipping_policy.url }}">{{ shop.shipping_policy.title | upcase }}</a>{% endif %}<a href="{{ shop.privacy_policy.url | default: '/policies/privacy-policy' }}">{{ 'pal.footer.privacy' | t }}</a>{% if shop.terms_of_service != blank %}<a href="{{ shop.terms_of_service.url }}">{{ shop.terms_of_service.title | upcase }}</a>{% endif %}</div><strong>{{ 'pal.footer.tagline' | t }}</strong></div>
+</footer>

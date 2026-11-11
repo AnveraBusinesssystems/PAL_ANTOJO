@@ -1,0 +1,167 @@
+{% doc %}
+  @prompt
+    Redesign the Contact page template (contact.json) in this Shopify theme (ID 188097495268) into a polished buyer-trust page. Do NOT publish the theme or modify any other template. Preserve the global header/footer, the working Shopify contact form, all product data, and every other template.
+    
+    --- PAGE INTRO ---
+    At the top of the contact template (above the form), add:
+    - Eyebrow text: "CONTACT PAL ANTOJO" (small caps, chile-red or gold accent)
+    - Headline: "LET'S TALK SNACKS." (large, bold, deep green)
+    - Body copy: "Questions about an order, our products, retail opportunities, or collaborations? Send us a note and we'll point you in the right direction."
+    - Do NOT promise a response time.
+    
+    --- CONTACT EXPERIENCE ---
+    Create a two-column desktop layout (stacked on mobile):
+    
+    LEFT COLUMN — Contact Form:
+    - Use the existing native Shopify contact form section
+    - Fields: Name, Email (required), Phone (optional), Message (rename "Comment" to "Message" if the section supports it)
+    - Clearly visible labels, accessible fields
+    - Submit button labeled "SEND MESSAGE" styled in deep green with cream/white text
+    
+    RIGHT COLUMN — How Can We Help:
+    - Heading: "HOW CAN WE HELP?"
+    - A compact list with icons or styled bullets:
+      - Order support
+      - Product questions
+      - Retail & wholesale
+      - Collaborations
+    - Instagram link: @palantojo_chips linking to https://www.instagram.com/palantojo_chips/
+    - Do NOT add a fake email address, phone number, street address, map, physical storefront, or response-time claim.
+    
+    --- ABOUT SECTION ---
+    After the contact area, add a visually distinct "About Pal Antojo" section:
+    - Eyebrow: "ABOUT PAL ANTOJO"
+    - Headline: "REAL FLAVOR. BETTER CHOICES."
+    - Body copy: "Pal Antojo brings Mexican-inspired flavor to crisp, satisfying snacks made for sharing, discovering, and craving again. From banana and jicama chips to beet chips and Colitakis, our lineup is built around bold seasoning, colorful ingredients, and serious crunch."
+    - CTA button: "EXPLORE ALL FLAVORS" linking to /collections/all
+    - Do NOT invent a founder story, city, physical location, dates, certifications, health claims, or manufacturing details.
+    
+    --- VISUAL SYSTEM ---
+    Use the Bold Mercado visual system already in this theme:
+    - Warm cream background
+    - Deep green for headings and primary buttons
+    - Chile-red for eyebrow accents or highlights
+    - Subtle gold for secondary accents
+    - Strong typographic hierarchy, generous but controlled spacing
+    - Accessible contrast ratios
+    - Semantic HTML structure
+    - Fully responsive: two-column on desktop, single-column stacked on mobile
+    
+    Reuse native theme sections/blocks where practical. Scoped custom Liquid/CSS is acceptable inside this template only. Do not affect any other template or global styles.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-trust-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    color: #1c1c1c;
+    background: #f5f0e8;
+    padding: clamp(32px, 6vw, 76px) 24px;
+    box-sizing: border-box;
+  }
+  .ai-contact-trust-{{ ai_gen_id }} * { box-sizing: border-box; }
+  .ai-contact-trust-{{ ai_gen_id }}__inner { width: 100%; max-width: 1120px; margin: 0 auto; }
+  .ai-contact-trust-{{ ai_gen_id }}__intro { max-width: 800px; margin: 0 auto 44px; text-align: center; }
+  .ai-contact-trust-{{ ai_gen_id }}__eyebrow { margin: 0 0 12px; color: #9f3025; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .ai-contact-trust-{{ ai_gen_id }}__title { margin: 0 0 18px; color: #1b4332; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; font-weight: 800; letter-spacing: -.04em; }
+  .ai-contact-trust-{{ ai_gen_id }}__intro-copy { max-width: 680px; margin: 0 auto; font-size: 17px; line-height: 1.65; }
+  .ai-contact-trust-{{ ai_gen_id }}__columns { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(260px, .75fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .ai-contact-trust-{{ ai_gen_id }}__form { min-width: 0; }
+  .ai-contact-trust-{{ ai_gen_id }}__form form { display: grid; gap: 18px; }
+  .ai-contact-trust-{{ ai_gen_id }}__form label { display: block; margin-bottom: 7px; color: #1b4332; font-size: 14px; font-weight: 700; }
+  .ai-contact-trust-{{ ai_gen_id }}__form input:not([type="submit"]), .ai-contact-trust-{{ ai_gen_id }}__form textarea { display: block; width: 100%; padding: 13px 14px; color: #1c1c1c; background: #fffdf8; border: 1px solid #7d6b49; border-radius: 4px; font: inherit; }
+  .ai-contact-trust-{{ ai_gen_id }}__form textarea { min-height: 150px; resize: vertical; }
+  .ai-contact-trust-{{ ai_gen_id }}__form input:focus, .ai-contact-trust-{{ ai_gen_id }}__form textarea:focus { outline: 3px solid #c9972c; outline-offset: 2px; }
+  .ai-contact-trust-{{ ai_gen_id }}__submit, .ai-contact-trust-{{ ai_gen_id }}__cta { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 13px 22px; color: #f5f0e8; background: #1b4332; border: 2px solid #1b4332; border-radius: 4px; font-weight: 800; letter-spacing: .06em; text-decoration: none; cursor: pointer; }
+  .ai-contact-trust-{{ ai_gen_id }}__submit:hover, .ai-contact-trust-{{ ai_gen_id }}__cta:hover { background: #123326; }
+  .ai-contact-trust-{{ ai_gen_id }}__help { padding: 28px; background: #ebe2d2; border-top: 4px solid #c9972c; }
+  .ai-contact-trust-{{ ai_gen_id }}__help h2 { margin: 0 0 20px; color: #1b4332; font-size: 22px; line-height: 1.2; }
+  .ai-contact-trust-{{ ai_gen_id }}__topics { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+  .ai-contact-trust-{{ ai_gen_id }}__topics li { display: flex; gap: 11px; align-items: center; font-size: 16px; }
+  .ai-contact-trust-{{ ai_gen_id }}__topics li::before { content: ''; width: 9px; height: 9px; flex: 0 0 9px; background: #9f3025; border-radius: 50%; }
+  .ai-contact-trust-{{ ai_gen_id }}__details { display: grid; margin: 24px 0 0; padding-top: 14px; border-top: 1px solid #9c8967; }
+  .ai-contact-trust-{{ ai_gen_id }}__details a,
+  .ai-contact-trust-{{ ai_gen_id }}__details span { display: flex; min-height: 48px; align-items: center; color: #1b4332; font-weight: 700; overflow-wrap: anywhere; }
+  .ai-contact-trust-{{ ai_gen_id }}__details a { text-decoration: underline; text-underline-offset: 3px; }
+  .ai-contact-trust-{{ ai_gen_id }}__social { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid #9c8967; font-size: 15px; }
+  .ai-contact-trust-{{ ai_gen_id }}__social a { color: #1b4332; font-weight: 700; text-underline-offset: 3px; }
+  .ai-contact-trust-{{ ai_gen_id }}__about { margin-top: clamp(56px, 9vw, 104px); padding: clamp(32px, 6vw, 64px); background: #1b4332; color: #f5f0e8; text-align: center; }
+  .ai-contact-trust-{{ ai_gen_id }}__about .ai-contact-trust-{{ ai_gen_id }}__eyebrow { color: #f0c86a; }
+  .ai-contact-trust-{{ ai_gen_id }}__about h2 { max-width: 760px; margin: 0 auto 18px; color: #f5f0e8; font-size: clamp(32px, 5vw, 48px); line-height: 1.08; font-weight: 800; }
+  .ai-contact-trust-{{ ai_gen_id }}__about-copy { max-width: 760px; margin: 0 auto 28px; font-size: 16px; line-height: 1.7; }
+  .ai-contact-trust-{{ ai_gen_id }}__cta { color: #1b4332; background: #f5f0e8; border-color: #f5f0e8; }
+  .ai-contact-trust-{{ ai_gen_id }}__cta:hover { color: #1b4332; background: #f0c86a; border-color: #f0c86a; }
+  .ai-contact-trust-{{ ai_gen_id }}__form .errors { color: #8e2118; }
+  @media (max-width: 749px) {
+    .ai-contact-trust-{{ ai_gen_id }} { padding-right: 18px; padding-left: 18px; }
+    .ai-contact-trust-{{ ai_gen_id }}__intro { margin-bottom: 34px; }
+    .ai-contact-trust-{{ ai_gen_id }}__columns { grid-template-columns: 1fr; gap: 32px; }
+    .ai-contact-trust-{{ ai_gen_id }}__help { padding: 24px; }
+  }
+{% endstyle %}
+
+<section class="ai-contact-trust-{{ ai_gen_id }}" style="width: {{ block.settings.desktop_width_percent }}%;" {{ block.shopify_attributes }}>
+  <div class="ai-contact-trust-{{ ai_gen_id }}__inner">
+    <header class="ai-contact-trust-{{ ai_gen_id }}__intro">
+      <p class="ai-contact-trust-{{ ai_gen_id }}__eyebrow">CONTACT PAL ANTOJO</p>
+      <h1 class="ai-contact-trust-{{ ai_gen_id }}__title">LET'S TALK SNACKS.</h1>
+      <p class="ai-contact-trust-{{ ai_gen_id }}__intro-copy">Questions about an order, our products, retail opportunities, or collaborations? Send us a note and we'll point you in the right direction.</p>
+    </header>
+    <div class="ai-contact-trust-{{ ai_gen_id }}__columns">
+      <div class="ai-contact-trust-{{ ai_gen_id }}__form">
+        {% form 'contact' %}
+          {% if form.posted_successfully? %}<p role="status">Thanks for reaching out. Your message has been sent.</p>{% endif %}
+          {{ form.errors | default_errors }}
+          <div><label for="ContactName-{{ ai_gen_id }}">Name</label><input id="ContactName-{{ ai_gen_id }}" type="text" name="contact[name]" autocomplete="name" value="{{ form.name | escape }}"></div>
+          <div><label for="ContactEmail-{{ ai_gen_id }}">Email <span aria-hidden="true">*</span></label><input id="ContactEmail-{{ ai_gen_id }}" type="email" name="contact[email]" autocomplete="email" value="{{ form.email | escape }}" required aria-required="true"></div>
+          <div><label for="ContactPhone-{{ ai_gen_id }}">Phone <span>(optional)</span></label><input id="ContactPhone-{{ ai_gen_id }}" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone | escape }}"></div>
+          <div><label for="ContactMessage-{{ ai_gen_id }}">Message</label><textarea id="ContactMessage-{{ ai_gen_id }}" name="contact[body]" rows="6" required>{{ form.body | escape }}</textarea></div>
+          <button class="ai-contact-trust-{{ ai_gen_id }}__submit" type="submit">SEND MESSAGE</button>
+        {% endform %}
+      </div>
+      <aside class="ai-contact-trust-{{ ai_gen_id }}__help" aria-labelledby="help-heading-{{ ai_gen_id }}">
+        <h2 id="help-heading-{{ ai_gen_id }}">HOW CAN WE HELP?</h2>
+        <ul class="ai-contact-trust-{{ ai_gen_id }}__topics"><li>Order support</li><li>Product questions</li><li>Retail &amp; wholesale</li><li>Collaborations</li></ul>
+        <div class="ai-contact-trust-{{ ai_gen_id }}__details" aria-label="Business contact details">
+          <a href="mailto:palantojotx@gmail.com">palantojotx@gmail.com</a>
+          <a href="tel:+19563393012">956-339-3012</a>
+          <span>McAllen, Texas</span>
+        </div>
+        <p class="ai-contact-trust-{{ ai_gen_id }}__social">Find us on Instagram: <a href="https://www.instagram.com/palantojo_chips/" target="_blank" rel="noopener noreferrer">@palantojo_chips</a></p>
+      </aside>
+    </div>
+    <section class="ai-contact-trust-{{ ai_gen_id }}__about" aria-labelledby="about-heading-{{ ai_gen_id }}">
+      <p class="ai-contact-trust-{{ ai_gen_id }}__eyebrow">ABOUT PAL ANTOJO</p>
+      <h2 id="about-heading-{{ ai_gen_id }}">REAL FLAVOR. BETTER CHOICES.</h2>
+      <p class="ai-contact-trust-{{ ai_gen_id }}__about-copy">Pal Antojo brings Mexican-inspired flavor to crisp, satisfying snacks made for sharing, discovering, and craving again. From banana and jicama chips to beet chips and Colitakis, our lineup is built around bold seasoning, colorful ingredients, and serious crunch.</p>
+      <a class="ai-contact-trust-{{ ai_gen_id }}__cta" href="{{ routes.all_products_collection_url }}">EXPLORE ALL FLAVORS</a>
+    </section>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact trust page",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact trust page"
+    }
+  ],
+  "tag": null,
+  "class": "contact-trust-page"
+}
+{% endschema %}
