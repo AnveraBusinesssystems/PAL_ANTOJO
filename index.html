@@ -3,39 +3,136 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>PAL ANTOJO</title>
-  <script src="./LiveAppConfig.js"></script>
+  <meta name="description" content="Pal Antojo — real Mexican flavor with a serious crunch.">
+  <title>Pal Antojo — Real Flavor. Better Choices.</title>
+  <style>
+    :root { --ink:#113c2d; --cream:#f8f0dd; --paper:#fffaf0; --sun:#f7b91f; --red:#e84a2a; --line:2px solid var(--ink); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--cream); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    img { display:block; width:100%; }
+    button { color:inherit; font:inherit; }
+    .announcement { padding:.65rem 1rem; overflow:hidden; background:var(--ink); color:white; font-size:.68rem; font-weight:800; letter-spacing:.12em; text-align:center; white-space:nowrap; }
+    .site-header { position:sticky; top:0; z-index:20; display:grid; grid-template-columns:auto 1fr auto; align-items:center; min-height:72px; padding:.65rem 1rem; border-bottom:var(--line); background:rgba(248,240,221,.96); backdrop-filter:blur(10px); }
+    .brand { width:72px; }
+    .desktop-nav { display:none; }
+    .header-actions { display:flex; justify-content:flex-end; gap:.55rem; }
+    .header-button { min-height:42px; padding:0 .9rem; border:var(--line); background:var(--sun); font-size:.72rem; font-weight:900; letter-spacing:.06em; }
+    .menu-button { background:var(--paper); }
+    .mobile-nav { position:fixed; inset:102px 0 auto; z-index:19; padding:.75rem 1rem 1.15rem; border-bottom:var(--line); background:var(--sun); }
+    .mobile-nav[hidden] { display:none; }
+    .mobile-nav a { display:flex; justify-content:space-between; padding:1rem .15rem; border-bottom:1px solid var(--ink); font-size:1.35rem; font-weight:900; text-transform:uppercase; }
+    .hero { display:grid; border-bottom:var(--line); }
+    .hero-copy { padding:3.5rem 1.25rem 2.5rem; }
+    .eyebrow { margin:0 0 1rem; color:var(--red); font-size:.68rem; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+    h1,h2,h3 { margin:0; text-transform:uppercase; }
+    h1 { max-width:12ch; font-size:clamp(3.25rem,16vw,6rem); line-height:.86; letter-spacing:-.065em; }
+    h1 em,h2 em { color:var(--red); font-family:Georgia,serif; font-weight:400; text-transform:none; }
+    .hero-copy>p:not(.eyebrow) { max-width:31rem; margin:1.4rem 0 0; font-family:Georgia,serif; font-size:1.15rem; line-height:1.45; }
+    .hero-actions { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin-top:1.8rem; }
+    .button { display:inline-flex; justify-content:space-between; gap:1.5rem; min-height:48px; padding:.9rem 1rem; border:var(--line); background:var(--sun); font-size:.75rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase; box-shadow:4px 4px 0 var(--ink); }
+    .text-link { padding:.6rem 0; border-bottom:2px solid var(--red); font-size:.78rem; font-weight:900; text-transform:uppercase; }
+    .hero-media { position:relative; min-height:360px; overflow:hidden; border-top:var(--line); background:var(--red); }
+    .hero-media img { width:100%; height:100%; min-height:360px; object-fit:cover; }
+    .placeholder-label { position:absolute; right:.8rem; bottom:.8rem; padding:.55rem .7rem; border:var(--line); background:var(--sun); font-size:.62rem; font-weight:900; letter-spacing:.08em; }
+    .ticker { padding:.8rem 0; overflow:hidden; border-bottom:var(--line); background:var(--sun); font-weight:900; letter-spacing:.12em; white-space:nowrap; }
+    .ticker span { display:inline-block; min-width:100%; animation:ticker 16s linear infinite; }
+    @keyframes ticker { to { transform:translateX(-100%); } }
+    .section { padding:4rem 1.2rem; border-bottom:var(--line); }
+    .section-heading { display:grid; gap:1rem; margin-bottom:2rem; }
+    h2 { max-width:12ch; font-size:clamp(2.6rem,12vw,5.6rem); line-height:.9; letter-spacing:-.055em; }
+    .section-heading>p:last-child { max-width:34rem; margin:0; font-family:Georgia,serif; font-size:1.05rem; line-height:1.5; }
+    .product-grid { display:grid; gap:1rem; }
+    .product-card { overflow:hidden; border:var(--line); background:var(--paper); box-shadow:5px 5px 0 var(--ink); }
+    .product-card img { aspect-ratio:1/.86; object-fit:cover; background:#eadfca; }
+    .product-copy { padding:1rem; }
+    .product-copy span { color:var(--red); font-size:.65rem; font-weight:900; letter-spacing:.12em; }
+    .product-copy h3 { margin-top:.25rem; font-size:1.5rem; }
+    .product-copy p { margin:.45rem 0 0; font-size:.85rem; }
+    .paths { padding:0; background:var(--ink); color:var(--cream); }
+    .path-intro,.path-card { min-height:330px; padding:2.5rem 1.2rem; border-bottom:2px solid var(--cream); }
+    .path-intro { display:flex; flex-direction:column; justify-content:center; }
+    .path-intro h2 em { color:var(--sun); }
+    .path-card { display:flex; flex-direction:column; justify-content:flex-end; color:var(--ink); }
+    .path-card h3 { font-size:clamp(3rem,15vw,5rem); line-height:.86; letter-spacing:-.05em; }
+    .path-card p { max-width:28rem; line-height:1.45; }
+    .path-card .button { align-self:flex-start; background:var(--paper); }
+    .path-surprise { background:var(--sun); }
+    .path-build { background:var(--red); }
+    .story { background:var(--paper); }
+    .story-grid { display:grid; gap:1rem; }
+    .story-card { padding:1.25rem; border:var(--line); background:var(--cream); }
+    .story-card span { color:var(--red); font-size:.7rem; font-weight:900; }
+    .story-card h3 { margin:.45rem 0; font-size:1.3rem; }
+    .story-card p { margin:0; line-height:1.5; }
+    .final-cta { min-height:520px; display:grid; place-items:center; padding:4rem 1.2rem; background:var(--red); color:var(--cream); text-align:center; }
+    .final-cta h2 { max-width:10ch; }
+    .final-cta h2 em { color:var(--sun); }
+    .final-cta .button { margin-top:2rem; color:var(--ink); }
+    footer { display:grid; gap:1.4rem; padding:2.5rem 1.2rem; background:var(--ink); color:var(--cream); }
+    footer strong { color:var(--sun); font-size:1.5rem; text-transform:uppercase; }
+    footer p { max-width:34rem; margin:0; line-height:1.45; }
+    footer nav { display:flex; flex-wrap:wrap; gap:1rem; font-size:.72rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    @media (min-width:700px) {
+      .product-grid,.story-grid { grid-template-columns:repeat(3,1fr); }
+      .site-header { min-height:86px; padding-inline:3vw; }
+      .brand { width:92px; }
+      .menu-button,.mobile-nav { display:none!important; }
+      .desktop-nav { display:flex; justify-content:center; gap:2rem; font-size:.72rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+      .hero { grid-template-columns:46% 54%; min-height:calc(100vh - 116px); }
+      .hero-copy { display:flex; flex-direction:column; justify-content:center; padding:5vw; }
+      .hero-media { min-height:100%; border-top:0; border-left:var(--line); }
+      .section { padding:6rem 4vw; }
+      .section-heading { grid-template-columns:1.3fr .7fr; align-items:end; }
+      .paths { display:grid; grid-template-columns:1fr 1fr 1fr; }
+      .path-intro,.path-card { min-height:580px; border-right:2px solid var(--cream); border-bottom:0; padding:4vw; }
+      .path-card:last-child { border-right:0; }
+      footer { grid-template-columns:1fr auto; align-items:end; padding:3.5rem 4vw; }
+      footer nav { justify-content:flex-end; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .ticker span { animation:none; } }
+  </style>
 </head>
 <body>
-  <p style="font:16px system-ui;padding:24px">Loading PAL ANTOJO…</p>
+  <div class="announcement">FREE SHIPPING OVER $50 · BOLD MEXICAN CRUNCH · REAL INGREDIENTS</div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Pal Antojo home"><img src="pal-antojo-frontend/shopify-theme/assets/logo-500.placeholder.svg" alt="Pal Antojo logo placeholder"></a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a></nav>
+    <div class="header-actions"><button class="header-button menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button><button class="header-button" type="button">Bag · 0</button></div>
+  </header>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="#flavors"><span>Flavors</span><span>01</span></a><a href="#build"><span>Build a box</span><span>02</span></a><a href="#story"><span>Our story</span><span>03</span></a></nav>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy"><p class="eyebrow">Rooted in Mexico · Crunched in Texas</p><h1>This isn’t just a snack. <em>It’s a craving.</em></h1><p>Real roots, loud flavor and one seriously satisfying crunch.</p><div class="hero-actions"><a class="button" href="#flavors">Taste the lineup <span>↗</span></a><a class="text-link" href="#build">Build your box →</a></div></div>
+      <div class="hero-media"><picture><source media="(max-width:699px)" srcset="pal-antojo-frontend/shopify-theme/assets/pal-hero-table-mobile.placeholder.svg"><img src="pal-antojo-frontend/shopify-theme/assets/pal-hero-table-v1.placeholder.svg" alt="Placeholder for the Pal Antojo hero product photo"></picture><span class="placeholder-label">HERO PRODUCT IMAGE</span></div>
+    </section>
+    <div class="ticker" aria-hidden="true"><span>REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ </span></div>
+    <section class="section" id="flavors">
+      <div class="section-heading"><div><p class="eyebrow">Meet the lineup</p><h2>Pick your <em>craving.</em></h2></div><p>Start with the flavors people understand fastest. Keep the choice simple on mobile, then let the crunch do the convincing.</p></div>
+      <div class="product-grid">
+        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/banana-adobado-feature.placeholder.svg" alt="Placeholder for Plátano Adobado product image"><div class="product-copy"><span>SMOKY · SAVORY</span><h3>Plátano Adobado</h3><p>Warm chile, real crunch and a little attitude.</p></div></article>
+        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/beet-crunch-mobile.placeholder.svg" alt="Placeholder for Betabel product image"><div class="product-copy"><span>EARTHY · BOLD</span><h3>Betabel</h3><p>Deep color, loud seasoning and a clean snap.</p></div></article>
+        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/banana-adobado-feature-mobile.placeholder.svg" alt="Placeholder for Pal Antojo variety image"><div class="product-copy"><span>TRY THE LINEUP</span><h3>Mix Your Favorites</h3><p>Choose the roots and seasonings calling your name.</p></div></article>
+      </div>
+    </section>
+    <section class="paths" id="build">
+      <div class="path-intro"><p class="eyebrow">Your box, your rules</p><h2>How do you want your <em>box?</em></h2></div>
+      <article class="path-card path-surprise"><h3>Surprise me.</h3><p>Five different bags, chosen for maximum discovery and zero decisions.</p><a class="button" href="#flavors">Show me the lineup ↯</a></article>
+      <article class="path-card path-build"><h3>Build my own.</h3><p>Choose 5, 6 or 10 bags and mix the flavors exactly how you want them.</p><a class="button" href="#flavors">Start building →</a></article>
+    </section>
+    <section class="section story" id="story">
+      <div class="section-heading"><div><p class="eyebrow">Why Pal Antojo</p><h2>Roots with a <em>louder crunch.</em></h2></div><p>A familiar craving, reimagined with real ingredients and a point of view that feels anything but ordinary.</p></div>
+      <div class="story-grid"><article class="story-card"><span>01</span><h3>Real roots</h3><p>Jícama, betabel, plátano and taro—not mystery dust.</p></article><article class="story-card"><span>02</span><h3>Bold flavor</h3><p>Seasoning that actually shows up in every bite.</p></article><article class="story-card"><span>03</span><h3>Better choices</h3><p>A snack you can feel good about craving again.</p></article></div>
+    </section>
+    <section class="final-cta"><div><p class="eyebrow">Your next craving is waiting</p><h2>Don’t just snack. <em>Crave boldly.</em></h2><a class="button" href="#flavors">Explore the lineup ↗</a></div></section>
+  </main>
+  <footer><div><strong>Pal Antojo</strong><p>Real ingredients. Bold Mexican flavor. A better kind of crunch.</p></div><nav aria-label="Footer navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a><a href="#top">Back to top ↑</a></nav></footer>
   <script>
-    Promise.all([
-      fetch('./AppShell.html').then(response => response.text()),
-      fetch('./Styles.html').then(response => response.text()),
-      fetch('./Scripts.html').then(response => response.text()),
-      fetch('./GithubPreview.js').then(response => response.text())
-    ]).then(([shell, styles, scripts, preview]) => {
-      const configuredUrl = String(window.PAL_ANTOJO_CONFIG?.webAppUrl || '').trim();
-      const hasLiveApp = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(configuredUrl);
-      const previewBanner = `<div class="github-preview"><strong>Website preview</strong><span>Sample data only · transactions are not saved to Google Sheets</span>${hasLiveApp?`<a href="${configuredUrl}" rel="noopener">OPEN LIVE SELLER APP</a>`:''}</div>`;
-      const previewStyles = '<style>.github-preview{position:relative;z-index:200;display:flex;justify-content:center;gap:10px;align-items:center;padding:8px 12px;background:#f3d88a;color:#3f2d00;font:600 12px/1.3 Inter,system-ui,sans-serif;border-bottom:1px solid #c8a84e}.github-preview span{font-weight:500}.github-preview a{padding:6px 9px;border:1px solid currentColor;color:inherit;text-decoration:none;font-weight:900;letter-spacing:.03em}@media(max-width:620px){.github-preview{display:block;text-align:center}.github-preview span{display:block;margin:2px 0 8px}.github-preview a{display:inline-block}}</style>';
-      const source = shell
-        .replace("<?!= include('Styles'); ?>", '')
-        .replace("<?!= include('Scripts'); ?>", '')
-        .replace('<?!= getLogoDataUrl_(); ?>', './Pal_antojo_web.png');
-      const parsed = new DOMParser().parseFromString(source, 'text/html');
-      document.head.insertAdjacentHTML('beforeend', styles + previewStyles);
-      document.body.innerHTML = previewBanner + parsed.body.innerHTML;
-      const previewScript = document.createElement('script');
-      previewScript.textContent = preview;
-      document.body.appendChild(previewScript);
-      const appScript = document.createElement('script');
-      appScript.textContent = scripts.replace(/^\s*<script>\s*/, '').replace(/\s*<\/script>\s*$/, '');
-      document.body.appendChild(appScript);
-    }).catch(error => {
-      document.body.innerHTML = '<main style="font:16px system-ui;padding:24px"><h1>PAL ANTOJO</h1><p>The preview could not load. Refresh the page and try again.</p></main>';
-      console.error(error);
-    });
+    const menuButton=document.querySelector('.menu-button');
+    const mobileNav=document.querySelector('#mobile-nav');
+    menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';menuButton.setAttribute('aria-expanded',String(open));mobileNav.hidden=!open;});
+    mobileNav.querySelectorAll('a').forEach((link)=>link.addEventListener('click',()=>{menuButton.setAttribute('aria-expanded','false');mobileNav.hidden=true;}));
   </script>
 </body>
 </html>
