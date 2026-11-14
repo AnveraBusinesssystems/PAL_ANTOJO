@@ -77,7 +77,7 @@
     content.innerHTML=`
       ${state.editingSaleId?`<div class="editing-banner"><span>Editing ${esc(state.editingSaleId)}</span><button class="secondary" onclick="cancelEdit()">Cancel edit</button></div>`:''}
       <div class="section-head"><div class="section-copy"><p class="eyebrow">${state.editingSaleId?'CORRECT TRANSACTION':'QUICK CHECKOUT'}</p><h2>${state.editingSaleId?'Update sale':'Start a new sale'}</h2><p class="muted">Choose products, confirm payment, and complete the transaction.</p></div><div class="seller-header-tools">${sellerPicker()}</div></div>
-      <div class="seller-layout"><div><div class="product-toolbar"><input id="productSearch" type="search" placeholder="Search products or flavors…" oninput="filterProducts(this.value)"></div><div class="product-grid" id="productGrid">${state.data.products.map(product=>productCard(product)).join('')||emptyState('No products available','Ask the owner to activate products and add inventory.')}</div></div>
+      <div class="seller-layout"><div class="selection-panel"><div class="selection-intro"><div><p class="eyebrow">PRODUCT CATALOG</p><h3>Select products</h3></div><span id="visibleProductCount" class="selection-count">${state.data.products.length} products</span></div><div class="product-toolbar"><label class="search-field" for="productSearch"><span aria-hidden="true">⌕</span><input id="productSearch" type="search" placeholder="Search product, flavor or size" aria-label="Search products" oninput="filterProducts(this.value)"></label></div><div class="category-filters" id="categoryFilters" aria-label="Filter by product category">${categoryButtons()}</div><div class="product-grid" id="productGrid">${state.data.products.map(product=>productCard(product)).join('')||emptyState('No products available','Ask the owner to activate products and add inventory.')}</div><p class="selection-empty hidden" id="selectionEmpty" role="status">No matching products. Try another search or category.</p></div>
       <aside class="card checkout"><div class="checkout-head"><h3>Order summary</h3><span class="cart-count" id="cartCount">0 bags</span></div><div id="saleSummary"></div>
       <label>Payment method</label><div class="payment-grid">${state.data.settings.paymentMethods.map((method,i)=>`<label class="payment-option"><input type="radio" name="payment" value="${esc(method)}" ${state.editPayment===method?'checked':''}><span>${esc(method)}</span></label>`).join('')}</div>
       <details><summary>Add a note</summary><textarea id="saleNotes" maxlength="500" placeholder="Customer name or useful detail…">${esc(state.editNotes)}</textarea></details>
@@ -85,9 +85,60 @@
       <button class="mobile-cart-bar" type="button" onclick="scrollToCheckout()"><span><strong id="mobileCartCount">0 bags</strong>Tap to review order</span><b id="mobileCartTotal">${money(0)} →</b></button>`;
     updateSummary(); updateMobileCartBar();
   }
-  function productCard(product){ const qty=state.cart[product.id]||0; return `<article class="product-card ${qty?'selected':''} ${product.available<1?'sold-out':''}" data-search="${esc((productLabel(product)+' '+sizeLabel(product)).toLowerCase())}"><span class="stock-pill ${product.available<=3?'low':''}">${product.available} left</span><h3>${esc(product.name)}</h3><div class="flavor">${esc(product.variation||'Original')} ${sizeLabel(product)?`<span class="package-size">${esc(sizeLabel(product))}</span>`:''}</div><div class="product-meta"><span class="price">${money(product.price)}</span><span>${product.available?product.available+' left':'Sold out'}</span></div><div class="qty"><button ${product.available+(state.originalCart?.[product.id]||0)<1?'disabled':''} aria-label="Remove one" onclick="changeQty('${esc(product.id)}',-1)">−</button><strong id="qty-${esc(product.id)}">${qty}</strong><button ${product.available+(state.originalCart?.[product.id]||0)<1?'disabled':''} aria-label="Add one" onclick="changeQty('${esc(product.id)}',1)">+</button></div></article>`; }
-  window.filterProducts=value=>{ document.querySelectorAll('#productGrid .product-card').forEach(card=>card.classList.toggle('hidden',!card.dataset.search.includes(value.toLowerCase()))); };
-  window.changeQty=(id,delta)=>{ const product=state.data.products.find(p=>p.id===id); const existing=state.cart[id]||0; const max=product.available+(state.editingSaleId?(state.originalCart?.[id]||0):0); const next=Math.max(0,Math.min(max,existing+delta)); state.cart[id]=next; const el=$(`qty-${id}`); if(el){el.textContent=next;el.closest('.product-card').classList.toggle('selected',next>0);} updateSummary(); updateMobileCartBar(); };
+  const categoryOf = product => String(product.name || '').trim() || 'Other';
+  let selectedCategory = 'All';
+  function categoryButtons() {
+    const categories = ['All', ...new Set(state.data.products.map(categoryOf))];
+    return categories.map(category => '<button type="button" class="category-chip '+(selectedCategory===category?'active':'')+'" aria-pressed="'+(selectedCategory===category)+'" onclick="selectCategory(decodeURIComponent(\''+encodeURIComponent(category)+'\'))">'+esc(category)+'</button>').join('');
+  }
+  window.selectCategory = category => {
+    selectedCategory = category;
+    $('categoryFilters').innerHTML = categoryButtons();
+    filterProducts($('productSearch')?.value || '');
+  };
+  function productCard(product) {
+    const qty = state.cart[product.id] || 0;
+    const max = Number(product.available || 0) + (state.editingSaleId ? Number(state.originalCart?.[product.id] || 0) : 0);
+    const flavor = product.variation || 'Original';
+    const lowStock = max > 0 && max <= 5;
+    const stockText = max < 1 ? 'Sold out' : lowStock ? 'Only '+max+' left' : max+' available';
+    return '<article class="product-card '+(qty?'selected ':'')+(max<1?'sold-out':'')+'" data-category="'+esc(categoryOf(product))+'" data-search="'+esc((productLabel(product)+' '+sizeLabel(product)).toLowerCase())+'">'+
+      '<div class="product-photo" aria-hidden="true"><span class="photo-symbol">▧</span><small>PHOTO</small></div>'+
+      '<div class="product-details"><h3>'+esc(product.name)+'</h3><p class="flavor">'+esc(flavor)+(sizeLabel(product)?' <span class="package-size">'+esc(sizeLabel(product))+'</span>':'')+'</p>'+
+      '<span class="price">'+money(product.price)+'</span><span class="selection-stock '+(lowStock||max<1?'low':'')+'">'+stockText+'</span></div>'+
+      '<div class="qty" role="group" aria-label="Quantity for '+esc(productLabel(product))+'">'+
+      '<button type="button" '+(qty===0?'disabled':'')+' aria-label="Remove one '+esc(productLabel(product))+'" onclick="changeQty(decodeURIComponent(\''+encodeURIComponent(product.id)+'\'),-1)">−</button>'+
+      '<strong id="qty-'+esc(product.id)+'" aria-live="polite">'+qty+'</strong>'+
+      '<button type="button" '+(qty>=max?'disabled':'')+' aria-label="Add one '+esc(productLabel(product))+'" onclick="changeQty(decodeURIComponent(\''+encodeURIComponent(product.id)+'\'),1)">+</button></div></article>';
+  }
+  window.filterProducts = value => {
+    const query = String(value || '').trim().toLowerCase();
+    let count = 0;
+    document.querySelectorAll('#productGrid .product-card').forEach(card => {
+      const visible = (selectedCategory==='All'||card.dataset.category===selectedCategory) && card.dataset.search.includes(query);
+      card.classList.toggle('hidden',!visible);
+      if(visible)count++;
+    });
+    if($('visibleProductCount')) $('visibleProductCount').textContent=count+' product'+(count===1?'':'s');
+    if($('selectionEmpty')) $('selectionEmpty').classList.toggle('hidden', count!==0||state.data.products.length===0);
+  };
+  window.changeQty=(id,delta)=>{
+    const product=state.data.products.find(p=>p.id===id); if(!product)return;
+    const existing=state.cart[id]||0;
+    const max=Number(product.available||0)+(state.editingSaleId?Number(state.originalCart?.[id]||0):0);
+    const next=Math.max(0,Math.min(max,existing+delta));
+    state.cart[id]=next;
+    const el=$('qty-'+id);
+    if(el){
+      el.textContent=next;
+      const card=el.closest('.product-card');
+      card.classList.toggle('selected',next>0);
+      const buttons=card.querySelectorAll('.qty button');
+      buttons[0].disabled=next===0;
+      buttons[1].disabled=next>=max;
+    }
+    updateSummary(); updateMobileCartBar();
+  };
   function cartTotals(){ const bags=Object.values(state.cart).reduce((a,b)=>a+b,0); const subtotal=state.data.products.reduce((sum,p)=>sum+(state.cart[p.id]||0)*p.price,0); const d=state.data.settings.discounts; const rate=bags>=d.tier2Quantity?d.tier2Percent:bags>=d.tier1Quantity?d.tier1Percent:0; return {bags,subtotal,rate,discount:subtotal*rate,total:subtotal*(1-rate)}; }
   function updateMobileCartBar(){ const t=cartTotals(),count=`${t.bags} bag${t.bags===1?'':'s'}`; if($('mobileCartCount')) $('mobileCartCount').textContent=count; if($('mobileCartTotal')) $('mobileCartTotal').textContent=`${money(t.total)} →`; }
   window.scrollToCheckout=()=>document.querySelector('.checkout')?.scrollIntoView({behavior:'smooth',block:'start'});
