@@ -17,6 +17,7 @@ const products=[
 const pages=[
 ['index.html','Home'],['flavors.html','Shop Flavors'],['build-box.html','Build a Box'],['bundles.html','Bundles & Deals'],['about.html','Our Story'],['wholesale.html','Wholesale'],['contact.html','Contact']
 ];
+const mainNav=[pages[0],pages[1],pages[2],pages[4],pages[6]];
 const support=[['faq.html','FAQs'],['shipping.html','Shipping'],['returns.html','Returns'],['privacy.html','Privacy'],['terms.html','Terms']];
 const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
 const page=pages.concat(support).some(p=>p[0]===current)?current:'index.html';
@@ -32,9 +33,9 @@ function shell(){
 document.body.classList.add('has-tray');
 document.body.innerHTML='<div class="announcement">BOLD MEXICAN CRUNCH · REAL FLAVOR · YOUR NEXT ANTOJO</div>'+
 '<header class="site-header"><a class="logo" href="index.html" aria-label="Pal Antojo home">PAL ANTOJO</a>'+
-'<nav class="desktop-nav" aria-label="Main navigation">'+navigation(pages.slice(0,6))+'</nav>'+
+'<nav class="desktop-nav" aria-label="Main navigation">'+navigation(mainNav)+'</nav>'+
 '<div class="header-actions"><button class="icon-button bag-trigger" id="open-bag" type="button" aria-haspopup="dialog">Bag · 0</button><button class="icon-button mobile-menu-button" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" type="button">Menu</button></div></header>'+
-'<nav class="mobile-menu" id="mobile-menu" hidden aria-label="Mobile navigation">'+navigation(pages)+navigation(support)+'</nav>'+
+'<nav class="mobile-menu" id="mobile-menu" hidden aria-label="Mobile navigation">'+navigation(mainNav)+'</nav>'+
 '<main id="main-content"></main>'+
 '<footer class="site-footer"><div class="container"><div class="footer-grid"><div><h3>PAL ANTOJO</h3><p>Bold Mexican-inspired crunch. Made for every craving.</p><a href="https://www.instagram.com/palantojotx/" rel="noopener">Instagram @palantojotx →</a></div><div><h4>Shop</h4>'+navigation(pages.slice(1,4))+'</div><div><h4>Company</h4>'+navigation(pages.slice(4))+'</div><div><h4>Help & policies</h4>'+navigation(support)+'</div></div><div class="footer-bottom">© <span id="year"></span> Pal Antojo · Prices, promotions, and product availability are confirmed at the Shopify store.</div></div></footer>'+
 '<div class="bag-tray" aria-label="Selection preview"><div><strong id="tray-count">0 bags selected</strong><small id="tray-total">Preview subtotal $0.00</small></div><button type="button" id="tray-review">Review bag →</button></div>'+
@@ -79,8 +80,8 @@ function categoryTiles(){return '<div class="category-grid">'+names.map((n,i)=>'
 function home(){
 return '<section class="hero"><div class="hero-copy"><p class="eyebrow">ROOTED IN MEXICO · CRUNCHED IN TEXAS</p><h1>NOT YOUR ORDINARY <span class="serif">crunch.</span></h1><p>Jícama, beet, banana, taro, and cauliflower chips. Big Mexican-inspired flavor in every bag.</p><div class="button-row"><a class="button" href="flavors.html">Shop flavors →</a><a class="button secondary" href="build-box.html">Build a box →</a></div></div><div class="hero-media" id="hero-media"><div class="hero-fallback"><strong>REAL ROOTS.<br>BOLD HEAT.<br>BETTER CRUNCH.</strong></div><video id="hero-video" muted autoplay loop playsinline preload="metadata" poster="pal-antojo-frontend/shopify-theme/assets/pal-hero-table-mobile.placeholder.svg" aria-label="Pal Antojo brand video"><source src="media/pal-antojo-hero-mobile.mp4" type="video/mp4"></video><span class="hero-note" id="video-note">VIDEO SPACE RESERVED</span></div></section>'+
 '<div class="ticker">REAL ROOTS — BOLD FLAVOR — NEW CRAVINGS — REAL ROOTS — BOLD FLAVOR</div>'+
-'<section class="section"><div class="container"><div class="section-header"><h2>Pick your <span class="serif">craving.</span></h2><p>One ingredient at a time. Find your next favorite flavor.</p></div>'+categoryTiles()+'</div></section>'+
 '<section class="section"><div class="container"><div class="section-header"><h2>Start with the favorites.</h2><p>Meet a few of the flavors that define Pal Antojo.</p></div><div class="product-grid" id="home-products">'+[products[0],products[2],products[6]].map(productCard).join('')+'</div><div class="button-row" style="margin-top:28px"><a class="button" href="flavors.html">See all 10 flavors →</a></div></div></section>'+
+'<section class="section"><div class="container"><div class="section-header"><h2>Pick your <span class="serif">craving.</span></h2><p>One ingredient at a time. Find your next favorite flavor.</p></div>'+categoryTiles()+'</div></section>'+
 '<section class="section feature-band"><div class="container"><p class="eyebrow">YOUR BAG, YOUR RULES</p><h2>BUILD YOUR <span class="serif">antojo box.</span></h2><p>Mix flavor favorites in one custom selection. Choose your bags, review your subtotal, then shop through our live Shopify store.</p><a class="button" href="build-box.html">Start building →</a></div></section>'+
 '<section class="section"><div class="container"><div class="section-header"><h2>Why Pal Antojo?</h2><p>Unexpected ingredients, familiar cravings, and flavors with personality.</p></div><div class="benefit-grid"><article class="benefit-card"><span class="number">01</span><h3>Unexpected ingredients</h3><p>From jícama to cauliflower, a different way to satisfy your crunch craving.</p></article><article class="benefit-card"><span class="number">02</span><h3>Bold seasoning</h3><p>Adobado, Flaming Hot, Salt & Lime, and Natural choices.</p></article><article class="benefit-card"><span class="number">03</span><h3>Made to share</h3><p>Explore multiple flavors or put together a box for your people.</p></article></div></div></section>'+
 '<section class="section"><div class="container"><div class="section-header"><h2>From our roots to your snack shelf.</h2><p>See the story behind the name and the flavors.</p></div><a class="button secondary" href="about.html">Read our story →</a></div></section>'+
