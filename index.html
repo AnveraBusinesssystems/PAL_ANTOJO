@@ -215,9 +215,7 @@
     const categoryNames = ['Jícama','Beet','Banana','Taro','Colitakis'];
     const selectedBags = {};
     let activeCategory = categoryNames[0];
-    const formatMoney = value => '
-</html>
-+value.toFixed(2);
+    const formatMoney = value => '$'+Number(value).toFixed(2);
     const getSelectionCount = category => catalogProducts.filter(p=>!category||p.category===category).reduce((sum,p)=>sum+(selectedBags[p.id]||0),0);
     function renderCategoryTabs() {
       const tabs = document.querySelector('#flavor-tabs');
