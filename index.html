@@ -31,7 +31,7 @@
     h1 em,h2 em { color:var(--red); font-family:Georgia,serif; font-weight:400; text-transform:none; }
     .hero-copy>p:not(.eyebrow) { max-width:31rem; margin:1.4rem 0 0; font-family:Georgia,serif; font-size:1.15rem; line-height:1.45; }
     .hero-actions { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin-top:1.8rem; }
-    .button { display:inline-flex; justify-content:space-between; gap:1.5rem; min-height:48px; padding:.9rem 1rem; border:var(--line); background:var(--sun); font-size:.75rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase; box-shadow:4px 4px 0 var(--ink); }
+    .button { display:inline-flex; align-items:center; justify-content:space-between; gap:1.5rem; min-height:48px; padding:.9rem 1rem; border:var(--line); background:var(--sun); font-size:.75rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase; box-shadow:4px 4px 0 var(--ink); }
     .text-link { padding:.6rem 0; border-bottom:2px solid var(--red); font-size:.78rem; font-weight:900; text-transform:uppercase; }
     .hero-media { position:relative; min-height:360px; overflow:hidden; border-top:var(--line); background:var(--red); }
     .hero-media img { width:100%; height:100%; min-height:360px; object-fit:cover; }
@@ -194,7 +194,7 @@
       <div class="hero-copy"><p class="eyebrow">Rooted in Mexico · Crunched in Texas</p><h1>This isn’t just a snack. <em>It’s a craving.</em></h1><p>Real roots, loud flavor and one seriously satisfying crunch.</p><div class="hero-actions"><a class="button" href="#flavors">Taste the lineup <span>↗</span></a><a class="text-link" href="#build">Build your box →</a></div></div>
       <div class="hero-media"><picture><source media="(max-width:699px)" srcset="pal-antojo-frontend/shopify-theme/assets/pal-hero-table-mobile.placeholder.svg"><img src="pal-antojo-frontend/shopify-theme/assets/pal-hero-table-v1.placeholder.svg" alt="Placeholder for the Pal Antojo hero product photo"></picture><span class="placeholder-label">HERO PRODUCT IMAGE</span></div>
     </section>
-    <div class="ticker" aria-hidden="true"><span>REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ </span></div>
+    <div class="ticker" aria-hidden="true"><span>REAL ROOTS — BOLD HEAT — BETTER CRUNCH — REAL ROOTS — BOLD HEAT — BETTER CRUNCH — </span></div>
     <section class="section" id="flavors">
       <div class="section-heading"><div><p class="eyebrow">Meet the lineup</p><h2>Pick your <em>craving.</em></h2></div><p>Explore the collection by ingredient. Choose a tab to see its flavors, then build your ideal selection.</p></div>
       <div class="catalog-toolbar"><div><h3>Find your crunch</h3><p>One product family at a time. Your bag stays saved as you switch.</p></div><span class="catalog-count" id="catalog-count" aria-live="polite"></span></div>
@@ -204,23 +204,23 @@
     </section>
     <section class="paths" id="build">
       <div class="path-intro"><p class="eyebrow">Your box, your rules</p><h2>How do you want your <em>box?</em></h2></div>
-      <article class="path-card path-surprise"><h3>Surprise me.</h3><p>Five different bags, chosen for maximum discovery and zero decisions.</p><button class="button" type="button" id="surprise-button">Surprise me ↯</button></article>
+      <article class="path-card path-surprise"><h3>Surprise me.</h3><p>Five different bags, chosen for maximum discovery and zero decisions.</p><button class="button" type="button" id="surprise-button">Surprise me →</button></article>
       <article class="path-card path-build"><h3>Build my own.</h3><p>Choose 5, 6 or 10 bags and mix the flavors exactly how you want them.</p><a class="button" href="#flavors">Start selecting →</a></article>
     </section>
     <section class="section story" id="story">
       <div class="section-heading"><div><p class="eyebrow">Why Pal Antojo</p><h2>Roots with a <em>louder crunch.</em></h2></div><p>A familiar craving, reimagined with real ingredients and a point of view that feels anything but ordinary.</p></div>
       <div class="story-grid"><article class="story-card"><span>01</span><h3>Real roots</h3><p>Jícama, betabel, plátano and taro—not mystery dust.</p></article><article class="story-card"><span>02</span><h3>Bold flavor</h3><p>Seasoning that actually shows up in every bite.</p></article><article class="story-card"><span>03</span><h3>Better choices</h3><p>A snack you can feel good about craving again.</p></article></div>
     </section>
-    <section class="final-cta"><div><p class="eyebrow">Your next craving is waiting</p><h2>Don’t just snack. <em>Crave boldly.</em></h2><a class="button" href="#flavors">Explore the lineup ↗</a></div></section>
+    <section class="final-cta"><div><p class="eyebrow">Your next craving is waiting</p><h2>Don’t just snack. <em>Crave boldly.</em></h2><a class="button" href="#flavors">Explore the lineup →</a></div></section>
   </main>
-  <aside class="bag-tray" aria-label="Your selection"><div><strong id="bag-count">0 bags selected</strong><small id="bag-subtotal">Subtotal: $0.00 · preview only</small></div><button id="review-bag" type="button" aria-haspopup="dialog">Review bag ↗</button></aside>
+  <aside class="bag-tray" aria-label="Your selection"><div><strong id="bag-count">0 bags selected</strong><small id="bag-subtotal">Subtotal: $0.00 · preview only</small></div><button id="review-bag" type="button" aria-haspopup="dialog">Review bag →</button></aside>
   <div class="bag-dialog" id="bag-dialog" role="dialog" aria-modal="true" aria-labelledby="bag-dialog-title" hidden>
     <div class="bag-dialog-card">
       <div class="bag-dialog-top"><h2 id="bag-dialog-title">Your bag</h2><button id="close-bag" type="button" aria-label="Close bag">×</button></div>
       <p class="bag-note">Your selections are a website preview. To purchase, choose products again in our Shopify store.</p>
       <div id="bag-dialog-items"></div>
       <div class="bag-dialog-total"><span>Estimated subtotal</span><strong id="bag-dialog-subtotal">$0.00</strong></div>
-      <div class="bag-dialog-actions"><button type="button" id="continue-browsing">Continue browsing</button><a href="https://palantojo.com/collections/all" rel="noopener">Shop real products ↗</a></div>
+      <div class="bag-dialog-actions"><button type="button" id="continue-browsing">Continue browsing</button><a href="https://palantojo.com/collections/all" rel="noopener">Shop real products →</a></div>
     </div>
   </div>
   <footer><div><strong>Pal Antojo</strong><p>Real ingredients. Bold Mexican flavor. A better kind of crunch.</p></div><nav aria-label="Footer navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a><a href="#top">Back to top ↑</a></nav></footer>
