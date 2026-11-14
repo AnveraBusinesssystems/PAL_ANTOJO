@@ -157,6 +157,27 @@
       .bag-tray { max-width:none; padding-inline:4vw; }
     }
 
+
+    .bag-tray { position:fixed; left:0; right:0; bottom:0; }
+    .bag-tray button { display:inline-flex; align-items:center; justify-content:center; min-height:45px; padding:.7rem .9rem; border:2px solid var(--ink); background:var(--ink); color:white; font-size:.7rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; text-align:center; cursor:pointer; }
+    body { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+    .bag-dialog[hidden] { display:none!important; }
+    .bag-dialog { position:fixed; inset:0; z-index:70; display:grid; place-items:center; padding:1rem; background:rgba(10,31,21,.7); }
+    .bag-dialog-open { overflow:hidden; }
+    .bag-dialog-card { width:min(100%,520px); max-height:calc(100dvh - 2rem); overflow-y:auto; border:3px solid var(--ink); background:var(--paper); box-shadow:7px 7px 0 var(--sun); padding:1.25rem; }
+    .bag-dialog-top { display:flex; justify-content:space-between; align-items:start; gap:1rem; }
+    .bag-dialog-top h2 { font-size:2rem; }
+    .bag-dialog-top button { width:44px; min-height:44px; border:2px solid var(--ink); background:var(--sun); cursor:pointer; font-size:1.4rem; }
+    .bag-note { font-family:Georgia,serif; font-size:.95rem; line-height:1.4; }
+    .bag-item { display:flex; justify-content:space-between; gap:1rem; padding:.85rem 0; border-bottom:1px solid var(--ink); font-size:.9rem; }
+    .bag-item strong { white-space:nowrap; }
+    .bag-empty { padding:1rem 0; font-family:Georgia,serif; }
+    .bag-dialog-total { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.25rem 0; font-weight:900; }
+    .bag-dialog-actions { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+    .bag-dialog-actions button,.bag-dialog-actions a { display:grid; place-items:center; min-height:48px; border:2px solid var(--ink); padding:.7rem; background:var(--paper); color:var(--ink); font-weight:900; font-size:.7rem; text-align:center; text-transform:uppercase; cursor:pointer; }
+    .bag-dialog-actions a { background:var(--sun); }
+    #surprise-button { cursor:pointer; }
+
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .ticker span { animation:none; } }
   </style>
 </head>
@@ -183,8 +204,8 @@
     </section>
     <section class="paths" id="build">
       <div class="path-intro"><p class="eyebrow">Your box, your rules</p><h2>How do you want your <em>box?</em></h2></div>
-      <article class="path-card path-surprise"><h3>Surprise me.</h3><p>Five different bags, chosen for maximum discovery and zero decisions.</p><a class="button" href="#flavors">Show me the lineup ↯</a></article>
-      <article class="path-card path-build"><h3>Build my own.</h3><p>Choose 5, 6 or 10 bags and mix the flavors exactly how you want them.</p><a class="button" href="#flavors">Start building →</a></article>
+      <article class="path-card path-surprise"><h3>Surprise me.</h3><p>Five different bags, chosen for maximum discovery and zero decisions.</p><button class="button" type="button" id="surprise-button">Surprise me ↯</button></article>
+      <article class="path-card path-build"><h3>Build my own.</h3><p>Choose 5, 6 or 10 bags and mix the flavors exactly how you want them.</p><a class="button" href="#flavors">Start selecting →</a></article>
     </section>
     <section class="section story" id="story">
       <div class="section-heading"><div><p class="eyebrow">Why Pal Antojo</p><h2>Roots with a <em>louder crunch.</em></h2></div><p>A familiar craving, reimagined with real ingredients and a point of view that feels anything but ordinary.</p></div>
@@ -192,7 +213,16 @@
     </section>
     <section class="final-cta"><div><p class="eyebrow">Your next craving is waiting</p><h2>Don’t just snack. <em>Crave boldly.</em></h2><a class="button" href="#flavors">Explore the lineup ↗</a></div></section>
   </main>
-  <aside class="bag-tray" aria-label="Your selection"><div><strong id="bag-count">0 bags selected</strong><small id="bag-subtotal">Subtotal: $0.00 · preview only</small></div><a id="bag-shop-link" href="https://palantojo.com/" rel="noopener" aria-label="Shop Pal Antojo online">Shop online ↗</a></aside>
+  <aside class="bag-tray" aria-label="Your selection"><div><strong id="bag-count">0 bags selected</strong><small id="bag-subtotal">Subtotal: $0.00 · preview only</small></div><button id="review-bag" type="button" aria-haspopup="dialog">Review bag ↗</button></aside>
+  <div class="bag-dialog" id="bag-dialog" role="dialog" aria-modal="true" aria-labelledby="bag-dialog-title" hidden>
+    <div class="bag-dialog-card">
+      <div class="bag-dialog-top"><h2 id="bag-dialog-title">Your bag</h2><button id="close-bag" type="button" aria-label="Close bag">×</button></div>
+      <p class="bag-note">Your selections are a website preview. To purchase, choose products again in our Shopify store.</p>
+      <div id="bag-dialog-items"></div>
+      <div class="bag-dialog-total"><span>Estimated subtotal</span><strong id="bag-dialog-subtotal">$0.00</strong></div>
+      <div class="bag-dialog-actions"><button type="button" id="continue-browsing">Continue browsing</button><a href="https://palantojo.com/collections/all" rel="noopener">Shop real products ↗</a></div>
+    </div>
+  </div>
   <footer><div><strong>Pal Antojo</strong><p>Real ingredients. Bold Mexican flavor. A better kind of crunch.</p></div><nav aria-label="Footer navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a><a href="#top">Back to top ↑</a></nav></footer>
   <script>
     const menuButton=document.querySelector('.menu-button');
@@ -286,7 +316,37 @@
       document.querySelector('#header-bag').textContent='Bag · '+count;
       document.querySelector('#bag-subtotal').textContent='Subtotal: '+formatMoney(subtotal)+' · preview only';
     }
-    document.querySelector('#header-bag').addEventListener('click',()=>document.querySelector('#flavors').scrollIntoView({behavior:'smooth',block:'start'}));
+    function closeBagDialog() {document.querySelector('#bag-dialog').hidden=true;document.body.classList.remove('bag-dialog-open');document.querySelector('#review-bag').focus();}
+    function showBagDialog() {
+      const modal=document.querySelector('#bag-dialog'),items=document.querySelector('#bag-dialog-items');
+      items.replaceChildren();
+      const chosen=catalogProducts.filter(product=>(selectedBags[product.id]||0)>0);
+      if(!chosen.length){const empty=document.createElement('p');empty.className='bag-empty';empty.textContent='Your bag is empty. Choose some flavors to get started.';items.append(empty);}
+      chosen.forEach(product=>{
+        const line=document.createElement('div');line.className='bag-item';
+        const name=document.createElement('span');name.textContent=(selectedBags[product.id]||0)+' × '+product.category+' '+product.flavor;
+        const price=document.createElement('strong');price.textContent=formatMoney(product.price*(selectedBags[product.id]||0));
+        line.append(name,price);items.append(line);
+      });
+      const subtotal=catalogProducts.reduce((sum,p)=>sum+(selectedBags[p.id]||0)*p.price,0);
+      document.querySelector('#bag-dialog-subtotal').textContent=formatMoney(subtotal);
+      modal.hidden=false;document.body.classList.add('bag-dialog-open');document.querySelector('#close-bag').focus();
+    }
+    document.querySelector('#header-bag').addEventListener('click',showBagDialog);
+    document.querySelector('#review-bag').addEventListener('click',showBagDialog);
+    document.querySelector('#close-bag').addEventListener('click',closeBagDialog);
+    document.querySelector('#continue-browsing').addEventListener('click',closeBagDialog);
+    document.querySelector('#bag-dialog').addEventListener('click',event=>{if(event.target.id==='bag-dialog')closeBagDialog();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.querySelector('#bag-dialog').hidden)closeBagDialog();});
+    document.querySelector('#surprise-button').addEventListener('click',()=>{
+      Object.keys(selectedBags).forEach(id=>delete selectedBags[id]);
+      const pool=[...catalogProducts];
+      for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+      pool.slice(0,5).forEach(p=>selectedBags[p.id]=1);
+      activeCategory=pool[0].category;
+      renderCategoryTabs();renderCatalog();updateBag();
+      document.querySelector('#flavors').scrollIntoView({behavior:'smooth',block:'start'});
+    });
     renderCategoryTabs();renderCatalog();updateBag();
   </script>
 </body>
