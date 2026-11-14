@@ -165,7 +165,7 @@
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Pal Antojo home"><img src="pal-antojo-frontend/shopify-theme/assets/logo-500.placeholder.svg" alt="Pal Antojo logo placeholder"></a>
     <nav class="desktop-nav" aria-label="Primary navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a></nav>
-    <div class="header-actions"><button class="header-button menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button><button class="header-button" type="button">Bag · 0</button></div>
+    <div class="header-actions"><button class="header-button menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button><button class="header-button" id="header-bag" type="button" aria-label="View selected products">Bag · 0</button></div>
   </header>
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><a href="#flavors"><span>Flavors</span><span>01</span></a><a href="#build"><span>Build a box</span><span>02</span></a><a href="#story"><span>Our story</span><span>03</span></a></nav>
   <main id="top">
@@ -285,8 +285,10 @@
       const count=getSelectionCount();
       const subtotal=catalogProducts.reduce((sum,p)=>sum+(selectedBags[p.id]||0)*p.price,0);
       document.querySelector('#bag-count').textContent=count+' bag'+(count===1?'':'s')+' selected';
+      document.querySelector('#header-bag').textContent='Bag · '+count;
       document.querySelector('#bag-subtotal').textContent='Subtotal: '+formatMoney(subtotal)+' · preview only';
     }
+    document.querySelector('#header-bag').addEventListener('click',()=>document.querySelector('#flavors').scrollIntoView({behavior:'smooth',block:'start'}));
     renderCategoryTabs();renderCatalog();updateBag();
   </script>
 </body>
