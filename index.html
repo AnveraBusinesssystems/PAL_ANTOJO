@@ -91,6 +91,72 @@
       footer { grid-template-columns:1fr auto; align-items:end; padding:3.5rem 4vw; }
       footer nav { justify-content:flex-end; }
     }
+
+    /* Browsable, mobile-first product catalog. Existing brand palette and shell remain unchanged. */
+    #flavors { scroll-margin-top:88px; }
+    .catalog-toolbar { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
+    .catalog-toolbar h3 { font-size:1.15rem; letter-spacing:-.025em; }
+    .catalog-toolbar p { margin:.35rem 0 0; font-family:Georgia,serif; font-size:.9rem; line-height:1.4; }
+    .catalog-count { font-size:.69rem; font-weight:900; white-space:nowrap; letter-spacing:.07em; }
+    .flavor-tabs { position:sticky; top:72px; z-index:12; display:flex; gap:0; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:thin; border:2px solid var(--ink); background:var(--paper); box-shadow:4px 4px 0 var(--ink); margin-bottom:1.4rem; }
+    .flavor-tab { position:relative; flex:0 0 auto; min-width:94px; padding:.95rem .95rem; min-height:52px; border:0; border-right:1px solid rgba(17,60,45,.2); background:transparent; font-size:.77rem; font-weight:900; text-transform:uppercase; letter-spacing:.025em; cursor:pointer; }
+    .flavor-tab:last-child { border-right:0; }
+    .flavor-tab[aria-selected="true"] { background:var(--ink); color:var(--paper); }
+    .flavor-tab:focus-visible,.catalog-stepper button:focus-visible,.catalog-link:focus-visible { outline:3px solid var(--red); outline-offset:-3px; }
+    .tab-bag-count { display:inline-grid; place-items:center; margin-left:.4rem; min-width:20px; height:20px; padding:0 4px; background:var(--sun); color:var(--ink); font-size:.63rem; }
+    .catalog-panel { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .catalog-product { display:grid; min-width:0; border:2px solid var(--ink); background:var(--paper); box-shadow:4px 4px 0 var(--ink); }
+    .catalog-photo { position:relative; display:grid; place-items:center; min-height:140px; aspect-ratio:4/3; border-bottom:2px solid var(--ink); background:#e8dcc6; }
+    .catalog-photo::before { content:""; width:42px; height:46px; border:2px solid rgba(17,60,45,.3); transform:rotate(-10deg); }
+    .catalog-photo::after { content:"PRODUCT PHOTO"; position:absolute; bottom:12px; font-size:.56rem; font-weight:900; letter-spacing:.12em; opacity:.6; }
+    .catalog-product-copy { display:flex; flex-direction:column; gap:.45rem; padding:1rem; }
+    .catalog-product-copy .catalog-size { color:var(--red); font-size:.65rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }
+    .catalog-product-copy h3 { font-size:1.2rem; line-height:1.04; letter-spacing:-.025em; overflow-wrap:anywhere; }
+    .catalog-product-copy p { margin:0; font-family:Georgia,serif; font-size:.85rem; line-height:1.4; }
+    .catalog-product-bottom { display:flex; justify-content:space-between; align-items:end; gap:.5rem; margin-top:auto; padding-top:.5rem; }
+    .catalog-product-bottom strong { font-size:1.15rem; }
+    .catalog-stepper { display:flex; align-items:center; gap:0; border:2px solid var(--ink); background:white; }
+    .catalog-stepper button { display:grid; place-items:center; width:42px; height:44px; padding:0; border:0; background:var(--sun); font-size:1.25rem; font-weight:900; cursor:pointer; }
+    .catalog-stepper button:disabled { background:#d6d0c2; color:#6c756e; cursor:not-allowed; }
+    .catalog-stepper output { display:grid; place-items:center; min-width:28px; padding:0 3px; font-size:.85rem; font-weight:900; }
+    .catalog-empty { padding:2rem; border:2px dashed var(--ink); text-align:center; }
+    .bag-tray { position:sticky; bottom:0; z-index:15; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.8rem 1rem calc(.8rem + env(safe-area-inset-bottom)); border-top:2px solid var(--ink); background:var(--sun); box-shadow:0 -6px 18px rgba(17,60,45,.10); }
+    .bag-tray strong { display:block; font-size:1rem; }
+    .bag-tray small { display:block; margin-top:.22rem; font-size:.7rem; font-weight:700; }
+    .bag-tray a { display:inline-flex; align-items:center; justify-content:center; min-height:45px; padding:.7rem .9rem; border:2px solid var(--ink); background:var(--ink); color:white; font-size:.7rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; text-align:center; }
+    .bag-tray a[aria-disabled="true"] { opacity:.5; pointer-events:none; }
+    #flavors .section-heading { margin-bottom:1.5rem; }
+    @media(max-width:699px) {
+      #flavors.section { padding:3.2rem 1rem 1.7rem; }
+      #flavors .section-heading>p:last-child { font-size:.95rem; }
+      .flavor-tabs { top:72px; margin-inline:-1rem; border-left:0; border-right:0; box-shadow:none; }
+      .flavor-tab { padding:.85rem .9rem; min-width:93px; font-size:.7rem; }
+      .catalog-panel { grid-template-columns:1fr; gap:1rem; }
+      .catalog-product { grid-template-columns:104px minmax(0,1fr); grid-template-areas:"photo details"; }
+      .catalog-photo { grid-area:photo; min-height:100%; height:100%; aspect-ratio:auto; border-bottom:0; border-right:2px solid var(--ink); }
+      .catalog-photo::after { left:6px; right:6px; bottom:9px; text-align:center; font-size:.48rem; }
+      .catalog-photo::before { width:30px; height:38px; }
+      .catalog-product-copy { grid-area:details; padding:.8rem .7rem; gap:.35rem; }
+      .catalog-product-copy h3 { font-size:1rem; }
+      .catalog-product-copy p { font-size:.78rem; }
+      .catalog-product-bottom strong { font-size:1rem; }
+      .catalog-stepper button { width:38px; height:42px; }
+      .catalog-stepper output { min-width:24px; }
+    }
+    @media(max-width:360px) {
+      .catalog-product { grid-template-columns:80px minmax(0,1fr); }
+      .catalog-product-copy { padding:.6rem; }
+      .catalog-stepper button { width:34px; }
+      .catalog-stepper output { min-width:22px; }
+      .bag-tray { gap:.5rem; padding-inline:.7rem; }
+      .bag-tray a { font-size:.62rem; padding-inline:.55rem; }
+    }
+    @media(min-width:700px) {
+      .flavor-tabs { top:86px; }
+      .catalog-panel { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .bag-tray { max-width:none; padding-inline:4vw; }
+    }
+
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .ticker span { animation:none; } }
   </style>
 </head>
@@ -109,12 +175,11 @@
     </section>
     <div class="ticker" aria-hidden="true"><span>REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ REAL ROOTS ✦ BOLD HEAT ✦ BETTER CRUNCH ✦ </span></div>
     <section class="section" id="flavors">
-      <div class="section-heading"><div><p class="eyebrow">Meet the lineup</p><h2>Pick your <em>craving.</em></h2></div><p>Start with the flavors people understand fastest. Keep the choice simple on mobile, then let the crunch do the convincing.</p></div>
-      <div class="product-grid">
-        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/banana-adobado-feature.placeholder.svg" alt="Placeholder for Plátano Adobado product image"><div class="product-copy"><span>SMOKY · SAVORY</span><h3>Plátano Adobado</h3><p>Warm chile, real crunch and a little attitude.</p></div></article>
-        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/beet-crunch-mobile.placeholder.svg" alt="Placeholder for Betabel product image"><div class="product-copy"><span>EARTHY · BOLD</span><h3>Betabel</h3><p>Deep color, loud seasoning and a clean snap.</p></div></article>
-        <article class="product-card"><img src="pal-antojo-frontend/shopify-theme/assets/banana-adobado-feature-mobile.placeholder.svg" alt="Placeholder for Pal Antojo variety image"><div class="product-copy"><span>TRY THE LINEUP</span><h3>Mix Your Favorites</h3><p>Choose the roots and seasonings calling your name.</p></div></article>
-      </div>
+      <div class="section-heading"><div><p class="eyebrow">Meet the lineup</p><h2>Pick your <em>craving.</em></h2></div><p>Explore the collection by ingredient. Choose a tab to see its flavors, then build your ideal selection.</p></div>
+      <div class="catalog-toolbar"><div><h3>Find your crunch</h3><p>One product family at a time. Your bag stays saved as you switch.</p></div><span class="catalog-count" id="catalog-count" aria-live="polite"></span></div>
+      <div class="flavor-tabs" id="flavor-tabs" role="tablist" aria-label="Shop by ingredient"></div>
+      <div class="catalog-panel" id="catalog-panel" role="tabpanel" aria-label="Products"></div>
+      <p class="catalog-empty" id="catalog-empty" hidden>No products in this category.</p>
     </section>
     <section class="paths" id="build">
       <div class="path-intro"><p class="eyebrow">Your box, your rules</p><h2>How do you want your <em>box?</em></h2></div>
@@ -127,12 +192,102 @@
     </section>
     <section class="final-cta"><div><p class="eyebrow">Your next craving is waiting</p><h2>Don’t just snack. <em>Crave boldly.</em></h2><a class="button" href="#flavors">Explore the lineup ↗</a></div></section>
   </main>
+  <aside class="bag-tray" aria-label="Your selection"><div><strong id="bag-count">0 bags selected</strong><small id="bag-subtotal">Subtotal: $0.00 · preview only</small></div><a id="bag-shop-link" href="https://palantojo.com/" rel="noopener" aria-label="Shop Pal Antojo online">Shop online ↗</a></aside>
   <footer><div><strong>Pal Antojo</strong><p>Real ingredients. Bold Mexican flavor. A better kind of crunch.</p></div><nav aria-label="Footer navigation"><a href="#flavors">Flavors</a><a href="#build">Build a box</a><a href="#story">Our story</a><a href="#top">Back to top ↑</a></nav></footer>
   <script>
     const menuButton=document.querySelector('.menu-button');
     const mobileNav=document.querySelector('#mobile-nav');
     menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')!=='true';menuButton.setAttribute('aria-expanded',String(open));mobileNav.hidden=!open;});
     mobileNav.querySelectorAll('a').forEach((link)=>link.addEventListener('click',()=>{menuButton.setAttribute('aria-expanded','false');mobileNav.hidden=true;}));
+
+    const catalogProducts = [
+      {id:'jic-ado',category:'Jícama',flavor:'Adobado',grams:50,price:4.99,description:'Classic chile seasoning with a satisfying snap.'},
+      {id:'jic-lime',category:'Jícama',flavor:'Salt & Lime',grams:60,price:5.49,description:'Bright lime and a little salty kick.'},
+      {id:'jic-hot',category:'Jícama',flavor:'Flaming Hot',grams:50,price:4.99,description:'Turn up the heat with every crunchy bite.'},
+      {id:'beet-ado',category:'Beet',flavor:'Adobado',grams:50,price:4.99,description:'Bold seasoning meets earthy beet crunch.'},
+      {id:'beet-hot',category:'Beet',flavor:'Flaming Hot',grams:50,price:4.99,description:'A colorful crunch with serious heat.'},
+      {id:'banana-natural',category:'Banana',flavor:'Natural',grams:60,price:5.49,description:'Crisp, uncomplicated banana chips.'},
+      {id:'banana-ado',category:'Banana',flavor:'Adobado',grams:60,price:5.49,description:'Savory chile flavor on banana crunch.'},
+      {id:'banana-lime',category:'Banana',flavor:'Salt & Lime',grams:60,price:5.49,description:'A tangy, salty twist on banana chips.'},
+      {id:'taro-ado',category:'Taro',flavor:'Adobado',grams:50,price:4.99,description:'Thin, crisp taro with bold adobado seasoning.'},
+      {id:'col-ado',category:'Colitakis',flavor:'Adobado',grams:80,price:5.99,description:'Our cauliflower crunch with chile seasoning.'}
+    ];
+    const categoryNames = ['Jícama','Beet','Banana','Taro','Colitakis'];
+    const selectedBags = {};
+    let activeCategory = categoryNames[0];
+    const formatMoney = value => '
+</html>
++value.toFixed(2);
+    const getSelectionCount = category => catalogProducts.filter(p=>!category||p.category===category).reduce((sum,p)=>sum+(selectedBags[p.id]||0),0);
+    function renderCategoryTabs() {
+      const tabs = document.querySelector('#flavor-tabs');
+      tabs.innerHTML='';
+      categoryNames.forEach((category,index)=>{
+        const button=document.createElement('button');
+        button.type='button';
+        button.className='flavor-tab';
+        button.setAttribute('role','tab');
+        button.setAttribute('aria-selected',String(category===activeCategory));
+        button.tabIndex=category===activeCategory?0:-1;
+        const label=document.createTextNode(category);
+        button.append(label);
+        const count=getSelectionCount(category);
+        if(count){const bubble=document.createElement('span');bubble.className='tab-bag-count';bubble.textContent=count;button.append(bubble);}
+        button.addEventListener('click',()=>switchCategory(category));
+        button.addEventListener('keydown',event=>{
+          if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+          event.preventDefault();
+          const next=event.key==='Home'?0:event.key==='End'?categoryNames.length-1:(index+(event.key==='ArrowLeft'?-1:1)+categoryNames.length)%categoryNames.length;
+          switchCategory(categoryNames[next]);
+          tabs.querySelectorAll('[role="tab"]')[next].focus();
+        });
+        tabs.append(button);
+      });
+    }
+    function switchCategory(category) {
+      activeCategory=category;
+      renderCategoryTabs();renderCatalog();
+      document.querySelector('#flavor-tabs [aria-selected="true"]')?.scrollIntoView({block:'nearest',inline:'nearest'});
+    }
+    function renderCatalog() {
+      const panel=document.querySelector('#catalog-panel');
+      panel.replaceChildren();
+      const visible=catalogProducts.filter(p=>p.category===activeCategory);
+      document.querySelector('#catalog-count').textContent=visible.length+' FLAVOR'+(visible.length===1?'':'S');
+      document.querySelector('#catalog-empty').hidden=visible.length!==0;
+      visible.forEach(product=>{
+        const card=document.createElement('article');card.className='catalog-product';
+        const photo=document.createElement('div');photo.className='catalog-photo';photo.setAttribute('aria-label','Space reserved for '+product.category+' '+product.flavor+' product photography');
+        const details=document.createElement('div');details.className='catalog-product-copy';
+        const size=document.createElement('span');size.className='catalog-size';size.textContent=product.grams+' G · '+product.category;
+        const title=document.createElement('h3');title.textContent=product.flavor;
+        const desc=document.createElement('p');desc.textContent=product.description;
+        const bottom=document.createElement('div');bottom.className='catalog-product-bottom';
+        const price=document.createElement('strong');price.textContent=formatMoney(product.price);
+        const controls=document.createElement('div');controls.className='catalog-stepper';controls.setAttribute('role','group');controls.setAttribute('aria-label',product.category+' '+product.flavor+' quantity');
+        const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label','Remove one '+product.category+' '+product.flavor);
+        const amount=document.createElement('output');amount.textContent=selectedBags[product.id]||0;
+        const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','Add one '+product.category+' '+product.flavor);
+        const change=delta=>{
+          const next=Math.max(0,Math.min(99,(selectedBags[product.id]||0)+delta));
+          if(next===0)delete selectedBags[product.id];else selectedBags[product.id]=next;
+          amount.textContent=next;minus.disabled=next===0;plus.disabled=next===99;
+          updateBag();renderCategoryTabs();
+        };
+        minus.disabled=!(selectedBags[product.id]>0);
+        plus.disabled=(selectedBags[product.id]||0)>=99;
+        minus.addEventListener('click',()=>change(-1));
+        plus.addEventListener('click',()=>change(1));
+        controls.append(minus,amount,plus);bottom.append(price,controls);details.append(size,title,desc,bottom);card.append(photo,details);panel.append(card);
+      });
+    }
+    function updateBag() {
+      const count=getSelectionCount();
+      const subtotal=catalogProducts.reduce((sum,p)=>sum+(selectedBags[p.id]||0)*p.price,0);
+      document.querySelector('#bag-count').textContent=count+' bag'+(count===1?'':'s')+' selected';
+      document.querySelector('#bag-subtotal').textContent='Subtotal: '+formatMoney(subtotal)+' · preview only';
+    }
+    renderCategoryTabs();renderCatalog();updateBag();
   </script>
 </body>
 </html>
