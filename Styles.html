@@ -372,4 +372,16 @@
     .selection-panel .product-card h3 { font-size:13px; }
   }
 
+
+  /* Distinct product-family tabs: only active family's products are shown. */
+  .selection-panel .category-filters { gap:0; padding:0; margin:0 0 14px; border-bottom:2px solid #d8dece; overflow-x:auto; }
+  .selection-panel .category-chip { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:52px; padding:11px 18px; border:0; border-bottom:3px solid transparent; background:transparent; color:#647268; font-size:13px; font-weight:800; }
+  .selection-panel .category-chip.active { color:var(--forest); background:#e8efe5; border-bottom-color:var(--orange); }
+  .selection-panel .category-chip:hover:not(.active) { background:#f0eee5; color:var(--forest); }
+  .category-cart-count { display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 5px; background:var(--forest); color:white; font-size:11px; font-weight:900; }
+  .selection-panel .category-chip.active .category-cart-count { background:var(--orange); }
+  @media(max-width:620px) {
+    .selection-panel .category-filters { margin:0 -12px 13px; padding:0 12px; }
+    .selection-panel .category-chip { min-height:49px; padding:10px 13px; font-size:12px; }
+  }
 </style>
