@@ -77,24 +77,38 @@
     content.innerHTML=`
       ${state.editingSaleId?`<div class="editing-banner"><span>Editing ${esc(state.editingSaleId)}</span><button class="secondary" onclick="cancelEdit()">Cancel edit</button></div>`:''}
       <div class="section-head"><div class="section-copy"><p class="eyebrow">${state.editingSaleId?'CORRECT TRANSACTION':'QUICK CHECKOUT'}</p><h2>${state.editingSaleId?'Update sale':'Start a new sale'}</h2><p class="muted">Choose products, confirm payment, and complete the transaction.</p></div><div class="seller-header-tools">${sellerPicker()}</div></div>
-      <div class="seller-layout"><div class="selection-panel"><div class="selection-intro"><div><p class="eyebrow">PRODUCT CATALOG</p><h3>Select products</h3></div><span id="visibleProductCount" class="selection-count">${state.data.products.length} products</span></div><div class="product-toolbar"><label class="search-field" for="productSearch"><span aria-hidden="true">⌕</span><input id="productSearch" type="search" placeholder="Search product, flavor or size" aria-label="Search products" oninput="filterProducts(this.value)"></label></div><div class="category-filters" id="categoryFilters" aria-label="Filter by product category">${categoryButtons()}</div><div class="product-grid" id="productGrid">${state.data.products.map(product=>productCard(product)).join('')||emptyState('No products available','Ask the owner to activate products and add inventory.')}</div><p class="selection-empty hidden" id="selectionEmpty" role="status">No matching products. Try another search or category.</p></div>
+      <div class="seller-layout"><div class="selection-panel"><div class="selection-intro"><div><p class="eyebrow">PRODUCT CATALOG</p><h3>Select products</h3></div><span id="visibleProductCount" class="selection-count">${state.data.products.length} products</span></div><div class="product-toolbar"><label class="search-field" for="productSearch"><span aria-hidden="true">⌕</span><input id="productSearch" type="search" placeholder="Search product, flavor or size" aria-label="Search products" oninput="filterProducts(this.value)"></label></div><div class="category-filters" id="categoryFilters" role="tablist" aria-label="Product categories">${categoryButtons()}</div><div class="product-grid" id="productGrid">${state.data.products.map(product=>productCard(product)).join('')||emptyState('No products available','Ask the owner to activate products and add inventory.')}</div><p class="selection-empty hidden" id="selectionEmpty" role="status">No matching products. Try another search or category.</p></div>
       <aside class="card checkout"><div class="checkout-head"><h3>Order summary</h3><span class="cart-count" id="cartCount">0 bags</span></div><div id="saleSummary"></div>
       <label>Payment method</label><div class="payment-grid">${state.data.settings.paymentMethods.map((method,i)=>`<label class="payment-option"><input type="radio" name="payment" value="${esc(method)}" ${state.editPayment===method?'checked':''}><span>${esc(method)}</span></label>`).join('')}</div>
       <details><summary>Add a note</summary><textarea id="saleNotes" maxlength="500" placeholder="Customer name or useful detail…">${esc(state.editNotes)}</textarea></details>
       <button class="primary wide" id="recordSaleButton" onclick="submitSale()">${state.editingSaleId?'UPDATE TRANSACTION':'COMPLETE SALE'}</button></aside></div>
       <button class="mobile-cart-bar" type="button" onclick="scrollToCheckout()"><span><strong id="mobileCartCount">0 bags</strong>Tap to review order</span><b id="mobileCartTotal">${money(0)} →</b></button>`;
-    updateSummary(); updateMobileCartBar();
+    updateSummary(); updateMobileCartBar(); filterProducts('');
   }
   const categoryOf = product => String(product.name || '').trim() || 'Other';
-  let selectedCategory = 'All';
+  let selectedCategory = '';
+  function productCategories() {
+    return [...new Set(state.data.products.map(categoryOf))];
+  }
+  function ensureCategory() {
+    const categories = productCategories();
+    if(!categories.includes(selectedCategory)) selectedCategory = categories[0] || '';
+  }
   function categoryButtons() {
-    const categories = ['All', ...new Set(state.data.products.map(categoryOf))];
-    return categories.map(category => '<button type="button" class="category-chip '+(selectedCategory===category?'active':'')+'" aria-pressed="'+(selectedCategory===category)+'" onclick="selectCategory(decodeURIComponent(\''+encodeURIComponent(category)+'\'))">'+esc(category)+'</button>').join('');
+    ensureCategory();
+    return productCategories().map(category => {
+      const active = selectedCategory === category;
+      const count = state.data.products.filter(p => categoryOf(p) === category).reduce((sum,p) => sum + Number(state.cart[p.id] || 0),0);
+      return '<button type="button" role="tab" class="category-chip '+(active?'active':'')+'" aria-selected="'+active+'" tabindex="'+(active?'0':'-1')+'" onclick="selectCategory(decodeURIComponent(\''+encodeURIComponent(category)+'\'))">'+esc(category)+(count?'<span class="category-cart-count">'+count+'</span>':'')+'</button>';
+    }).join('');
   }
   window.selectCategory = category => {
-    selectedCategory = category;
-    $('categoryFilters').innerHTML = categoryButtons();
-    filterProducts($('productSearch')?.value || '');
+    if(!productCategories().includes(category)) return;
+    selectedCategory=category;
+    $('categoryFilters').innerHTML=categoryButtons();
+    $('productSearch').value='';
+    filterProducts('');
+    $('categoryFilters').querySelector('.category-chip.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});
   };
   function productCard(product) {
     const qty = state.cart[product.id] || 0;
@@ -115,7 +129,7 @@
     const query = String(value || '').trim().toLowerCase();
     let count = 0;
     document.querySelectorAll('#productGrid .product-card').forEach(card => {
-      const visible = (selectedCategory==='All'||card.dataset.category===selectedCategory) && card.dataset.search.includes(query);
+      const visible = card.dataset.category===selectedCategory && card.dataset.search.includes(query);
       card.classList.toggle('hidden',!visible);
       if(visible)count++;
     });
@@ -137,6 +151,7 @@
       buttons[0].disabled=next===0;
       buttons[1].disabled=next>=max;
     }
+    if($('categoryFilters'))$('categoryFilters').innerHTML=categoryButtons();
     updateSummary(); updateMobileCartBar();
   };
   function cartTotals(){ const bags=Object.values(state.cart).reduce((a,b)=>a+b,0); const subtotal=state.data.products.reduce((sum,p)=>sum+(state.cart[p.id]||0)*p.price,0); const d=state.data.settings.discounts; const rate=bags>=d.tier2Quantity?d.tier2Percent:bags>=d.tier1Quantity?d.tier1Percent:0; return {bags,subtotal,rate,discount:subtotal*rate,total:subtotal*(1-rate)}; }
